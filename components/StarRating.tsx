@@ -65,8 +65,32 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
       return;
     }
 
-    // Optimistic update
+    // Capture current state for rollback
+    const previousMyRating = myRating;
+    const previousAvg = avg;
+    const previousCount = count;
+
+    // Optimistic update for my rating
     setMyRating(value);
+
+    // Optimistic calculation for average
+    // Note: We don't know for sure if we had a previous rating without fetching, 
+    // so this is a "best guess" optimistic update. 
+    // If we assume the user is updating an existing rating if myRating > 0:
+    let newOptimisticCount = count;
+    let newOptimisticAvg = avg;
+
+    if (previousMyRating > 0) {
+      // Updating existing rating
+      newOptimisticAvg = (avg * count - previousMyRating + value) / count;
+    } else {
+      // New rating
+      newOptimisticCount = count + 1;
+      newOptimisticAvg = (avg * count + value) / newOptimisticCount;
+    }
+
+    setAvg(newOptimisticAvg);
+    setCount(newOptimisticCount);
 
     const itemRef = doc(db, 'ratings', itemId);
     const userRef = doc(db, 'ratings', itemId, 'userRatings', user.uid);
@@ -97,7 +121,10 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
       });
     } catch {
       setError('Failed to save rating.');
-      setMyRating(0);
+      // Rollback
+      setMyRating(previousMyRating);
+      setAvg(previousAvg);
+      setCount(previousCount);
     }
   }
 

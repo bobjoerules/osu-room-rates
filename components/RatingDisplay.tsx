@@ -10,9 +10,10 @@ export type RatingDisplayProps = {
   initialMax?: number;
   size?: number;
   showMetaText?: boolean;
+  align?: 'center' | 'flex-start' | 'flex-end';
 };
 
-export default function RatingDisplay({ itemId, initialMax = 5, size = 40, showMetaText = true }: RatingDisplayProps) {
+export default function RatingDisplay({ itemId, initialMax = 5, size = 40, showMetaText = true, align = 'center' }: RatingDisplayProps) {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [avg, setAvg] = useState<number>(0);
@@ -33,7 +34,7 @@ export default function RatingDisplay({ itemId, initialMax = 5, size = 40, showM
   const inactiveStarColor = theme.starInactive;
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, { alignItems: align }]}>
       <View style={styles.row}>
         {Array.from({ length: initialMax }).map((_, i) => {
           const starIndex = i + 1;

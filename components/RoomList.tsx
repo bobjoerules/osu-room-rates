@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../theme';
 import RatingDisplay from './RatingDisplay';
 
@@ -25,18 +26,18 @@ export default function RoomList({ rooms }: RoomListProps) {
 
   const renderRoomItem = ({ item }: { item: Room }) => (
     <TouchableOpacity
-      style={[styles.roomCard, { backgroundColor: theme.background, borderColor: theme.text }]}
+      style={styles.roomCard}
       onPress={() => handleRoomPress(item.id)}
       activeOpacity={0.7}
     >
       {item.image && (
-        <Image source={item.image} style={styles.roomImage} />
+        <Image source={item.image} style={styles.roomImage} transition={300} />
       )}
       <View style={styles.roomContent}>
         <Text style={[styles.roomName, { color: theme.text }]}>{item.name}</Text>
-        <RatingDisplay itemId={item.id} />
+        <RatingDisplay itemId={item.id} size={16} align="flex-start" />
       </View>
-      <Ionicons name="chevron-forward" size={20} color={theme.text} />
+      <Ionicons name="chevron-forward" size={20} color={theme.subtext} />
     </TouchableOpacity>
   );
 
@@ -55,10 +56,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 12,
-    marginVertical: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderWidth: 1,
+    marginBottom: 8,
+    padding: 12,
   },
   roomImage: {
     width: 60,

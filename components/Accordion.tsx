@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, LayoutAnimation, Platform, UIManager } from 'react-native';
-import { useTheme } from '../theme';
 import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View } from 'react-native';
+import { useTheme } from '../theme';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -24,21 +24,21 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
   };
 
   return (
-    <View style={styles.itemContainer}>
+    <View style={[styles.itemContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
       <TouchableOpacity
-        style={[styles.header, { backgroundColor: theme.primary || '#007AFF' }]}
+        style={styles.header}
         onPress={handlePress}
         activeOpacity={0.7}
       >
-        <Text style={[styles.title, { color: '#fff' }]}>{title}</Text>
+        <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
         <Ionicons
           name={isExpanded ? 'chevron-up' : 'chevron-down'}
-          size={24}
-          color="#fff"
+          size={20}
+          color={theme.subtext}
         />
       </TouchableOpacity>
       {isExpanded && (
-        <View style={[styles.content, { backgroundColor: theme.background }]}>
+        <View style={[styles.content, { borderTopColor: theme.border }]}>
           {children}
         </View>
       )}
@@ -80,12 +80,13 @@ export default function Accordion({ items }: AccordionProps) {
 const styles = StyleSheet.create({
   itemContainer: {
     marginVertical: 8,
-    borderRadius: 8,
+    borderRadius: 12,
+    borderWidth: 1,
     overflow: 'hidden',
   },
   header: {
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -96,9 +97,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
   },
 });

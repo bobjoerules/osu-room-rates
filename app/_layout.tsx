@@ -68,14 +68,27 @@ function AuthenticatedStack() {
   };
 
   return (
-    <NavThemeProvider value={navTheme}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: theme.background },
-        }}
-      />
-    </NavThemeProvider>
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
+      <NavThemeProvider value={navTheme}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: theme.background },
+            animation: 'slide_from_right', // Improve transition smoothness
+          }}
+        >
+          <Stack.Screen
+            name="room/[roomId]/rate/index"
+            options={{
+              presentation: 'transparentModal',
+              animation: 'fade',
+              headerShown: false,
+              contentStyle: { backgroundColor: 'transparent' },
+            }}
+          />
+        </Stack>
+      </NavThemeProvider>
+    </View>
   );
 }
 
