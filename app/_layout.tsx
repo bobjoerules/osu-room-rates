@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NativeTabs, Icon, Label } from 'expo-router/unstable-native-tabs';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { ActivityIndicator, View, StyleSheet, DynamicColorIOS } from 'react-native';
 import Account from './account';
 import { ThemeProvider } from '../theme';
 
@@ -36,14 +36,18 @@ export default function TabLayout() {
 
   return (
     <ThemeProvider>
-      <NativeTabs>
+      <NativeTabs
+        tintColor={DynamicColorIOS({
+          dark: '#D73F09',
+          light: '#D73F09',
+        })}>
         <NativeTabs.Trigger name="index">
           <Label>Home</Label>
-          <Icon sf="house.fill" drawable="custom_android_drawable" />
+          <Icon sf="house.fill" drawable="ic_menu_home" />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="account">
           <Label>Account</Label>
-          <Icon sf="person.fill" drawable="custom_settings_drawable" />
+          <Icon sf="person.fill" drawable="ic_menu_account" />
         </NativeTabs.Trigger>
       </NativeTabs>
     </ThemeProvider>
