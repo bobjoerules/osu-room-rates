@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { useTheme, Theme } from '../theme';
-import { db } from '../firebaseConfig';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { db } from '../firebaseConfig';
+import { Theme, useTheme } from '../theme';
 
 export type RatingDisplayProps = {
   itemId: string;
@@ -44,7 +44,7 @@ export default function RatingDisplay({ itemId, initialMax = 5, size = 40, showM
           let starName: string = 'star-o';
           let showHalfOverlay = false;
           let baseColor = inactiveStarColor;
-          
+
           if (starIndex <= fullStar) {
             starName = 'star';
             baseColor = activeStarColor;

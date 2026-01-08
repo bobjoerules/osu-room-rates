@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, Text, Pressable } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { useTheme, Theme } from '../theme';
-import { auth, db } from '../firebaseConfig';
 import {
   doc,
   onSnapshot,
   runTransaction,
   serverTimestamp,
 } from 'firebase/firestore';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { auth, db } from '../firebaseConfig';
+import { Theme, useTheme } from '../theme';
 
 export type StarRatingProps = {
   itemId: string;
@@ -118,7 +118,7 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
     // Determine which star we're in (1-based)
     const unclampedIndex = Math.ceil(relX / slotWidth);
     const starIndex = Math.min(initialMax, Math.max(1, unclampedIndex));
-    
+
     if (starIndex >= 1 && starIndex <= initialMax) {
       // Calculate position within the current star
       const starStartX = (starIndex - 1) * slotWidth;
@@ -126,7 +126,7 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
       const half = slotWidth / 2;
       const deadzone = Math.min(8, slotWidth * 0.12);
       const isLeftHalf = positionInStar < half;
-      
+
       // Stickiness near the half boundary to avoid flicker
       const last = lastPreviewRef.current;
       if (last !== null) {
@@ -145,10 +145,20 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
 
   const handleDragStart = (event: any) => {
     const { pageX, pageY } = event.nativeEvent;
-    const rating = calculateRatingFromTouch(pageX, pageY);
-    if (rating !== null) {
-      setPreviewRating(rating);
-      lastPreviewRef.current = rating;
+
+    // Re-measure to ensure valid coordinates (handles scrolling)
+    if (rowRef.current) {
+      rowRef.current.measure((x, y, width, height, px, py) => {
+        rowBoxRef.current = { x: px, y: py, width, height, ready: true };
+        rowHeightRef.current = height;
+        slotWidthRef.current = width / initialMax;
+
+        const rating = calculateRatingFromTouch(pageX, pageY);
+        if (rating !== null) {
+          setPreviewRating(rating);
+          lastPreviewRef.current = rating;
+        }
+      });
     }
   };
 
@@ -179,9 +189,10 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
   const inactiveStarColor = theme.starInactive;
 
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} collapsable={false}>
       <View
         ref={rowRef}
+        collapsable={false}
         onStartShouldSetResponder={() => true}
         onMoveShouldSetResponder={() => true}
         onResponderTerminationRequest={() => false}
@@ -207,7 +218,7 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
           let starName: string = 'star-o';
           let showHalfOverlay = false;
           let baseColor = inactiveStarColor;
-          
+
           if (starIndex <= fullStar) {
             starName = 'star';
             baseColor = activeStarColor;
@@ -225,9 +236,8 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
           };
 
           return (
-            <Pressable
+            <View
               key={starIndex}
-              onPress={handleStarPress}
               style={styles.starBtn}
             >
               <View>
@@ -245,7 +255,7 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
                   />
                 )}
               </View>
-            </Pressable>
+            </View>
           );
         })}
       </View>

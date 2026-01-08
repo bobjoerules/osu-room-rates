@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
-import { NativeTabs, Icon, Label } from 'expo-router/unstable-native-tabs';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
+import { Stack } from 'expo-router';
+import * as SystemUI from 'expo-system-ui';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, useColorScheme, View } from 'react-native';
+import AccountScreen from '../components/AccountScreen';
 import { auth } from '../firebaseConfig';
-import { ActivityIndicator, View, StyleSheet, DynamicColorIOS } from 'react-native';
-import Account from './account';
-import { ThemeProvider } from '../theme';
+import { ThemeProvider, useTheme } from '../theme';
 
-export default function TabLayout() {
+export default function RootLayout() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -29,28 +31,51 @@ export default function TabLayout() {
   if (!isLoggedIn) {
     return (
       <ThemeProvider>
-        <Account />
+        <AccountScreen />
       </ThemeProvider>
     );
   }
 
   return (
     <ThemeProvider>
-      <NativeTabs
-        tintColor={DynamicColorIOS({
-          dark: '#D73F09',
-          light: '#D73F09',
-        })}>
-        <NativeTabs.Trigger name="index">
-          <Label>Home</Label>
-          <Icon sf="house.fill" drawable="ic_menu_home" />
-        </NativeTabs.Trigger>
-        <NativeTabs.Trigger name="account">
-          <Label>Account</Label>
-          <Icon sf="person.fill" drawable="ic_menu_account" />
-        </NativeTabs.Trigger>
-      </NativeTabs>
+      <AuthenticatedStack />
     </ThemeProvider>
+  );
+}
+
+function AuthenticatedStack() {
+  const theme = useTheme();
+  const colorScheme = useColorScheme();
+
+  useEffect(() => {
+    // Sets the root view background color to match the theme
+    // This fixes the white flash/border during transitions
+    SystemUI.setBackgroundColorAsync(theme.background);
+  }, [theme.background]);
+
+  const navTheme = {
+    dark: colorScheme === 'dark',
+    fonts: DefaultTheme.fonts,
+    colors: {
+      ...(colorScheme === 'dark' ? DarkTheme.colors : DefaultTheme.colors),
+      primary: theme.primary,
+      background: theme.background,
+      card: theme.card,
+      text: theme.text,
+      border: theme.border,
+      notification: theme.message,
+    },
+  };
+
+  return (
+    <NavThemeProvider value={navTheme}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: theme.background },
+        }}
+      />
+    </NavThemeProvider>
   );
 }
 
