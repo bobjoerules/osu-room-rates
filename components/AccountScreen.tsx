@@ -212,7 +212,6 @@ export default function Account() {
             {isAdmin && (
               <View style={styles.adminSection}>
                 <View style={styles.separator} />
-                <Text style={styles.label}>Admin Tools</Text>
                 <Pressable
                   style={styles.adminButton}
                   onPress={() => {
@@ -414,25 +413,22 @@ function createStyles(theme: Theme) {
       gap: 12,
     },
     adminButton: {
-      backgroundColor: theme.card,
       paddingVertical: 12,
-      paddingHorizontal: 16,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: theme.primary,
       alignItems: "center",
+      marginTop: 4,
     },
     adminButtonText: {
-      color: theme.primary,
-      fontWeight: "700",
-      fontSize: 16,
+      color: theme.subtext,
+      fontWeight: "500",
+      fontSize: 14,
+      textDecorationLine: "underline",
     },
     separator: {
       height: 1,
       backgroundColor: theme.border,
       width: '100%',
-      opacity: 0.5,
-      marginVertical: 4,
+      opacity: 0.3,
+      marginVertical: 12,
     },
   });
 }

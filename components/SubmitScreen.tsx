@@ -113,17 +113,10 @@ export default function SubmitScreen() {
                 setIsOtherSelected(false);
             };
 
-            Alert.alert('Success', 'Thank you! Your submission has been received and is waiting for review.', [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        resetForm();
-                        if (initialBuilding || initialRoomNumber) {
-                            router.back();
-                        }
-                    }
-                },
-            ]);
+            resetForm();
+            if (initialBuilding || initialRoomNumber) {
+                router.back();
+            }
         } catch (error: any) {
             console.error('Submission Error:', error.code, error.message);
 

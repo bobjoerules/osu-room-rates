@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { collection, doc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -33,11 +33,13 @@ export default function AdminScreen() {
     const router = useRouter();
     const [submissions, setSubmissions] = useState<Submission[]>([]);
     const [loading, setLoading] = useState(true);
+    const [statusFilter, setStatusFilter] = useState<'pending' | 'approved' | 'rejected'>('pending');
 
     useEffect(() => {
+        setLoading(true);
         const q = query(
             collection(db, 'submissions'),
-            where('status', '==', 'pending'),
+            where('status', '==', statusFilter),
             orderBy('createdAt', 'desc')
         );
 
@@ -54,7 +56,7 @@ export default function AdminScreen() {
         });
 
         return unsubscribe;
-    }, []);
+    }, [statusFilter]);
 
     const handleAction = async (id: string, status: 'approved' | 'rejected') => {
         try {
@@ -62,11 +64,32 @@ export default function AdminScreen() {
                 status,
                 reviewedAt: new Date(),
             });
-            Alert.alert('Success', `Submission ${status}.`);
         } catch (error) {
             console.error(`Error ${status} submission:`, error);
             Alert.alert('Error', `Failed to ${status} submission.`);
         }
+    };
+
+    const handleDelete = async (id: string) => {
+        Alert.alert(
+            'Delete Permanently?',
+            'This will remove this submission from the database forever.',
+            [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await deleteDoc(doc(db, 'submissions', id));
+                        } catch (error) {
+                            console.error("Error deleting submission:", error);
+                            Alert.alert('Error', 'Failed to delete submission.');
+                        }
+                    }
+                },
+            ]
+        );
     };
 
     const renderItem = ({ item }: { item: Submission }) => (
@@ -93,20 +116,33 @@ export default function AdminScreen() {
                 </Text>
 
                 <View style={styles.actions}>
-                    <Pressable
-                        style={[styles.actionButton, styles.rejectButton]}
-                        onPress={() => handleAction(item.id, 'rejected')}
-                    >
-                        <Ionicons name="close-circle" size={20} color="#ff453a" />
-                        <Text style={[styles.actionText, { color: '#ff453a' }]}>Reject</Text>
-                    </Pressable>
-                    <Pressable
-                        style={[styles.actionButton, styles.approveButton]}
-                        onPress={() => handleAction(item.id, 'approved')}
-                    >
-                        <Ionicons name="checkmark-circle" size={20} color="#34c759" />
-                        <Text style={[styles.actionText, { color: '#34c759' }]}>Approve</Text>
-                    </Pressable>
+                    {statusFilter === 'pending' && (
+                        <>
+                            <Pressable
+                                style={[styles.actionButton, styles.rejectButton]}
+                                onPress={() => handleAction(item.id, 'rejected')}
+                            >
+                                <Ionicons name="close-circle" size={20} color="#ff453a" />
+                                <Text style={[styles.actionText, { color: '#ff453a' }]}>Reject</Text>
+                            </Pressable>
+                            <Pressable
+                                style={[styles.actionButton, styles.approveButton]}
+                                onPress={() => handleAction(item.id, 'approved')}
+                            >
+                                <Ionicons name="checkmark-circle" size={20} color="#34c759" />
+                                <Text style={[styles.actionText, { color: '#34c759' }]}>Approve</Text>
+                            </Pressable>
+                        </>
+                    )}
+                    {statusFilter !== 'pending' && (
+                        <Pressable
+                            style={[styles.actionButton, styles.deleteButton]}
+                            onPress={() => handleDelete(item.id)}
+                        >
+                            <Ionicons name="trash-outline" size={20} color="#ff453a" />
+                            <Text style={[styles.actionText, { color: '#ff453a' }]}>Delete Forever</Text>
+                        </Pressable>
+                    )}
                 </View>
             </View>
         </View>
@@ -122,6 +158,26 @@ export default function AdminScreen() {
                 <View style={{ width: 40 }} />
             </View>
 
+            <View style={styles.tabBar}>
+                {(['pending', 'approved', 'rejected'] as const).map((status) => (
+                    <Pressable
+                        key={status}
+                        onPress={() => setStatusFilter(status)}
+                        style={[
+                            styles.tabItem,
+                            statusFilter === status && { borderBottomColor: theme.primary }
+                        ]}
+                    >
+                        <Text style={[
+                            styles.tabText,
+                            { color: statusFilter === status ? theme.primary : theme.subtext }
+                        ]}>
+                            {status.charAt(0).toUpperCase() + status.slice(1)}
+                        </Text>
+                    </Pressable>
+                ))}
+            </View>
+
             {loading ? (
                 <View style={styles.centered}>
                     <ActivityIndicator size="large" color={theme.primary} />
@@ -129,7 +185,9 @@ export default function AdminScreen() {
             ) : submissions.length === 0 ? (
                 <View style={styles.centered}>
                     <Ionicons name="documents-outline" size={64} color={theme.subtext} style={{ marginBottom: 16 }} />
-                    <Text style={[styles.emptyText, { color: theme.subtext }]}>No pending submissions</Text>
+                    <Text style={[styles.emptyText, { color: theme.subtext }]}>
+                        No {statusFilter} submissions
+                    </Text>
                 </View>
             ) : (
                 <FlatList
@@ -227,8 +285,29 @@ const styles = StyleSheet.create({
         borderColor: '#34c75922',
         backgroundColor: '#34c75911',
     },
+    deleteButton: {
+        borderColor: '#ff453a22',
+        backgroundColor: '#ff453a11',
+    },
     actionText: {
         fontWeight: 'bold',
         fontSize: 14,
+    },
+    tabBar: {
+        flexDirection: 'row',
+        paddingHorizontal: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: '#8882',
+        justifyContent: 'center',
+    },
+    tabItem: {
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderBottomWidth: 2,
+        borderBottomColor: 'transparent',
+    },
+    tabText: {
+        fontSize: 14,
+        fontWeight: '600',
     },
 });
