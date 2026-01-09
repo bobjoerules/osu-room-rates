@@ -340,6 +340,120 @@ export const BUILDINGS_DATA: Building[] = [
             },
         ]
     },
+    {
+        id: 'wgnd',
+        name: 'Wiegand Hall',
+        rooms: [
+            {
+                id: 'wgnd-106',
+                name: 'Room 106',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-106.jpeg')
+                ],
+                floor: '1',
+                capacity: '80',
+                roomType: 'Classroom',
+                searchAliases: ['WGND 106'],
+            },
+            {
+                id: 'wgnd-115',
+                name: 'Room 115',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-115.jpeg')
+                ],
+                floor: '1',
+                capacity: '217',
+                roomType: 'Lecture Hall',
+                searchAliases: ['WGND 115'],
+            },
+            {
+                id: 'wgnd-118',
+                name: 'Room 118',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-118.jpeg')
+                ],
+                floor: '1',
+                capacity: '12',
+                roomType: 'Lab Classroom',
+                searchAliases: ['WGND 118'],
+            },
+            {
+                id: 'wgnd-120',
+                name: 'Room 120',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-120.jpeg')
+                ],
+                floor: '1',
+                capacity: '10',
+                roomType: 'Food Lab',
+                searchAliases: ['WGND 120'],
+            },
+            {
+                id: 'wgnd-126',
+                name: 'Room 126',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-126.jpeg')
+                ],
+                floor: '1',
+                capacity: '17',
+                roomType: 'Lab Room',
+                searchAliases: ['WGND 126'],
+            },
+            {
+                id: 'wgnd-130',
+                name: 'Room 130',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-130.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Lab Room',
+                searchAliases: ['WGND 130'],
+            },
+            {
+                id: 'wgnd-132',
+                name: 'Room 132',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-132.jpeg')
+                ],
+                floor: '1',
+                capacity: '50',
+                roomType: 'Classroom',
+                searchAliases: ['WGND 132'],
+            },
+            {
+                id: 'wgnd-206',
+                name: 'Room 206',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/rooms/wgnd-206.jpeg')
+                ],
+                floor: '2',
+                capacity: '18',
+                roomType: 'Unknown',
+                searchAliases: ['WGND 206'],
+            },
+            {
+                id: 'wgnd-238',
+                name: 'Room 238',
+                building: 'Wiegand Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Unknown',
+                searchAliases: ['WGND 238'],
+            },
+        ]
+    },
 ];
 
 export function getRoomById(roomId: string): Room | null {
