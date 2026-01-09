@@ -1,15 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo, useState } from 'react';
-import { Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Accordion from '../../components/Accordion';
+import BuildingRating from '../../components/BuildingRating';
 import RoomList from '../../components/RoomList';
 import { BUILDINGS_DATA } from '../../data/rooms';
 import { Theme, useTheme } from '../../theme';
 const PlaceholderImage = require('../../assets/images/placeholder.png');
-
-
 
 export default function Index() {
   const theme = useTheme();
@@ -53,10 +52,15 @@ export default function Index() {
 
     return filtered.map(building => ({
       id: building.id,
-      title: building.name,
+      title: (
+        <View>
+          <Text style={[styles.title, { color: theme.text }]}>{building.name}</Text>
+          <BuildingRating roomIds={building.rooms.map(r => r.id)} />
+        </View>
+      ),
       content: <RoomList rooms={building.rooms} />,
     }));
-  }, [searchQuery]);
+  }, [searchQuery, styles.title, theme.text]);
 
 
   const insets = useSafeAreaInsets();
@@ -117,6 +121,10 @@ function createStyles(theme: Theme) {
     header: {
       paddingHorizontal: 16,
       paddingVertical: 12,
+    },
+    title: {
+      fontSize: 16,
+      fontWeight: '600',
     },
     searchBar: {
       flexDirection: 'row',

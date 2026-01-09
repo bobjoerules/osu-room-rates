@@ -8,7 +8,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 }
 
 interface AccordionItemProps {
-  title: string;
+  title: React.ReactNode;
   children: React.ReactNode;
   isExpanded: boolean;
   onPress: () => void;
@@ -29,7 +29,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
         onPress={handlePress}
         activeOpacity={0.7}
       >
-        <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
+        <View style={styles.titleContainer}>
+          {typeof title === 'string' ? (
+            <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
+          ) : (
+            title
+          )}
+        </View>
         <Ionicons
           name={isExpanded ? 'chevron-up' : 'chevron-down'}
           size={20}
@@ -48,7 +54,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
 interface AccordionProps {
   items: Array<{
     id: string;
-    title: string;
+    title: React.ReactNode;
     content: React.ReactNode;
   }>;
   forceExpandAll?: boolean;
@@ -95,10 +101,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  titleContainer: {
+    flex: 1,
+  },
   title: {
     fontSize: 16,
     fontWeight: '600',
-    flex: 1,
   },
   content: {
     borderTopWidth: 1,

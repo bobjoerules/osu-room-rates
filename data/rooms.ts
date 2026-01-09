@@ -560,7 +560,224 @@ export const BUILDINGS_DATA: Building[] = [
                 roomType: 'Unknown',
                 searchAliases: ['CORD 1100'],
             },
+            {
+                id: 'cord-1112',
+                name: 'Room 1112',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '34',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1112'],
+            },
+            {
+                id: 'cord-1200',
+                name: 'Room 1200',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-1200.jpeg')
+                ],
+                floor: '1',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1200'],
+            },
+            {
+                id: 'cord-1210',
+                name: 'Room 1210',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-1210.jpeg')
+                ],
+                floor: '1',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1210'],
+            },
+            {
+                id: 'cord-1302',
+                name: 'Room 1302',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1302'],
+            },
+            {
+                id: 'cord-1316',
+                name: 'Room 1316',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-1316.jpeg')
+                ],
+                floor: '1',
+                capacity: '211',
+                roomType: 'Lecture Hall',
+                searchAliases: ['CORD 1316'],
+            },
+            {
+                id: 'cord-1424',
+                name: 'Room 1424',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-1424.jpeg')
+                ],
+                floor: '1',
+                capacity: '45',
+                roomType: 'Classroom',
+                searchAliases: ['CORD 1424'],
+            },
+            {
+                id: 'cord-1506',
+                name: 'Room 1506',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1506'],
+            },
+            {
+                id: 'cord-1518',
+                name: 'Room 1518',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '29',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1518'],
+            },
+            {
+                id: 'cord-1604',
+                name: 'Room 1604',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '37',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 1604'],
+            },
+            {
+                id: 'cord-1616',
+                name: 'Room 1616',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-1616.jpeg')
+                ],
+                floor: '1',
+                capacity: '60',
+                roomType: 'Classroom',
+                searchAliases: ['CORD 1616'],
+            },
+            {
+                id: 'cord-2200',
+                name: 'Room 2200',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-2200.jpeg')
+                ],
+                floor: '2',
+                capacity: '45',
+                roomType: 'Lab Classroom',
+                searchAliases: ['CORD 2200'],
+            },
+            {
+                id: 'cord-2212',
+                name: 'Room 2212',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 2212'],
+            },
+            {
+                id: 'cord-2306',
+                name: 'Room 2306',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 2306'],
+            },
+            {
+                id: 'cord-2316',
+                name: 'Room 2316',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 2316'],
+            },
+            {
+                id: 'cord-2406',
+                name: 'Room 2406',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['CORD 2406'],
+            },
+            {
+                id: 'cord-2414',
+                name: 'Room 2414',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/rooms/cord-2414.jpeg')
+                ],
+                floor: '2',
+                capacity: '49',
+                roomType: 'Conference Room',
+                searchAliases: ['CORD 2414'],
+            },
+            {
+                id: 'cord-2602',
+                name: 'Room 2602',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '40',
+                roomType: 'Conference Room',
+                searchAliases: ['CORD 2602'],
+            },
+            {
+                id: 'cord-4629',
+                name: 'Room 4629',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '8',
+                roomType: 'Conference/Office Room',
+                searchAliases: ['CORD 4629'],
+            },
         ]
+
     },
 ];
 
