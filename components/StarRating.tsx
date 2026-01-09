@@ -31,7 +31,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
   const rowRef = useRef<View | null>(null);
   const rowBoxRef = useRef<{ x: number; y: number; width: number; height: number; ready: boolean }>({ x: 0, y: 0, width: 0, height: 0, ready: false });
 
-  // Safety check for undefined itemId
   if (!itemId) {
     return (
       <View style={styles.wrapper}>
@@ -40,7 +39,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
     );
   }
 
-  // Listen for aggregate rating changes
   useEffect(() => {
     const itemRef = doc(db, 'ratings', itemId);
     const unsub = onSnapshot(itemRef, (snap) => {
@@ -51,7 +49,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
     return unsub;
   }, [itemId]);
 
-  // Load my rating if signed in
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) {
@@ -74,26 +71,18 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
       return;
     }
 
-    // Capture current state for rollback
     const previousMyRating = myRating;
     const previousAvg = avg;
     const previousCount = count;
 
-    // Optimistic update for my rating
     setMyRating(value);
 
-    // Optimistic calculation for average
-    // Note: We don't know for sure if we had a previous rating without fetching, 
-    // so this is a "best guess" optimistic update. 
-    // If we assume the user is updating an existing rating if myRating > 0:
     let newOptimisticCount = count;
     let newOptimisticAvg = avg;
 
     if (previousMyRating > 0) {
-      // Updating existing rating
       newOptimisticAvg = (avg * count - previousMyRating + value) / count;
     } else {
-      // New rating
       newOptimisticCount = count + 1;
       newOptimisticAvg = (avg * count + value) / newOptimisticCount;
     }
@@ -130,7 +119,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
       });
     } catch {
       setError('Failed to save rating.');
-      // Rollback
       setMyRating(previousMyRating);
       setAvg(previousAvg);
       setCount(previousCount);
@@ -146,24 +134,20 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
     const relY = pageY - box.y;
     const verticalMargin = Math.min(8, rowH * 0.2);
 
-    // Only detect if within reasonable vertical range
     if (relY < -verticalMargin || relY > rowH + verticalMargin) {
       return null;
     }
 
-    // Determine which star we're in (1-based)
     const unclampedIndex = Math.ceil(relX / slotWidth);
     const starIndex = Math.min(initialMax, Math.max(1, unclampedIndex));
 
     if (starIndex >= 1 && starIndex <= initialMax) {
-      // Calculate position within the current star
       const starStartX = (starIndex - 1) * slotWidth;
       const positionInStar = relX - starStartX;
       const half = slotWidth / 2;
       const deadzone = Math.min(8, slotWidth * 0.12);
       const isLeftHalf = positionInStar < half;
 
-      // Stickiness near the half boundary to avoid flicker
       const last = lastPreviewRef.current;
       if (last !== null) {
         const lastIsHalf = last % 1 !== 0;
@@ -182,7 +166,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
   const handleDragStart = (event: any) => {
     const { pageX, pageY } = event.nativeEvent;
 
-    // Re-measure to ensure valid coordinates (handles scrolling)
     if (rowRef.current) {
       rowRef.current.measure((x, y, width, height, px, py) => {
         rowBoxRef.current = { x: px, y: py, width, height, ready: true };
@@ -199,7 +182,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
   };
 
   const handleDragMove = (event: any) => {
-    // Stop if multiple fingers detected
     if (event.nativeEvent.touches.length > 1) {
       return;
     }

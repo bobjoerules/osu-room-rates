@@ -437,7 +437,7 @@ export const BUILDINGS_DATA: Building[] = [
                 ],
                 floor: '2',
                 capacity: '18',
-                roomType: 'Unknown',
+                roomType: 'Lab Room',
                 searchAliases: ['WGND 206'],
             },
             {
@@ -449,8 +449,116 @@ export const BUILDINGS_DATA: Building[] = [
                 ],
                 floor: '2',
                 capacity: '30',
-                roomType: 'Unknown',
+                roomType: 'Classroom',
                 searchAliases: ['WGND 238'],
+            },
+        ]
+    },
+    {
+        id: 'phar',
+        name: 'Pharmacy Building',
+        rooms: [
+            {
+                id: 'phar-107',
+                name: 'Room 107',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/rooms/phar-107.jpeg')
+                ],
+                floor: '1',
+                capacity: '25',
+                roomType: 'Classroom',
+                searchAliases: ['PHAR 107'],
+            },
+            {
+                id: 'phar-213',
+                name: 'Room 213',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/rooms/phar-213.jpeg')
+                ],
+                floor: '2',
+                capacity: '25',
+                roomType: 'Meeting Room',
+                searchAliases: ['PHAR 213'],
+            },
+            {
+                id: 'phar-219',
+                name: 'Room 219',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/rooms/phar-219.jpeg')
+                ],
+                floor: '2',
+                capacity: '60',
+                roomType: 'Classroom',
+                searchAliases: ['PHAR 219'],
+            },
+            {
+                id: 'phar-227',
+                name: 'Room 227',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '34',
+                roomType: 'Lab Room',
+                searchAliases: ['PHAR 227'],
+            },
+            {
+                id: 'phar-237',
+                name: 'Room 237',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '18',
+                roomType: 'Lab Room',
+                searchAliases: ['PHAR 237'],
+            },
+            {
+                id: 'phar-305',
+                name: 'Room 305',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/rooms/phar-305.jpeg')
+                ],
+                floor: '3',
+                capacity: '149',
+                roomType: 'Lecture Hall',
+                searchAliases: ['PHAR 305'],
+            },
+            {
+                id: 'phar-329',
+                name: 'Room 329',
+                building: 'Pharmacy Building',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '3',
+                capacity: '12',
+                roomType: 'Lab Room',
+                searchAliases: ['PHAR 329'],
+            },
+        ]
+    },
+    {
+        id: 'cord',
+        name: 'Cordley Hall',
+        rooms: [
+            {
+                id: 'cord-1100',
+                name: 'Room 1100',
+                building: 'Cordley Hall',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '34',
+                roomType: 'Unknown',
+                searchAliases: ['CORD 1100'],
             },
         ]
     },

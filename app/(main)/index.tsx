@@ -1,12 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Accordion from '../../components/Accordion';
 import RoomList from '../../components/RoomList';
 import { BUILDINGS_DATA } from '../../data/rooms';
 import { Theme, useTheme } from '../../theme';
+const PlaceholderImage = require('../../assets/images/placeholder.png');
 
 
 
@@ -14,25 +15,33 @@ export default function Index() {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [searchQuery, setSearchQuery] = useState('');
+  const headerHeight = Platform.OS === 'ios' ? 70 : 85;
 
   const accordionItems = useMemo(() => {
-    // 1. Filter
+    const isSearching = searchQuery.trim().length > 0;
+    const lowerQuery = searchQuery.toLowerCase();
+
     const filtered = BUILDINGS_DATA.map(building => {
-      const buildingNameMatch = building.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const buildingNameMatch = building.name.toLowerCase().includes(lowerQuery);
+
       const matchingRooms = building.rooms.filter(room => {
-        const nameMatch = room.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const aliasMatch = room.searchAliases?.some(alias =>
-          alias.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        return nameMatch || aliasMatch;
+        const hasPhotos = room.images?.length > 0 && room.images[0] !== PlaceholderImage;
+
+        if (isSearching) {
+          const nameMatch = room.name.toLowerCase().includes(lowerQuery);
+          const aliasMatch = room.searchAliases?.some(alias =>
+            alias.toLowerCase().includes(lowerQuery)
+          );
+          return nameMatch || aliasMatch;
+        }
+
+        return hasPhotos;
       });
 
-      // If building name matches, show all rooms.
-      if (buildingNameMatch) {
+      if (isSearching && buildingNameMatch) {
         return { ...building };
       }
 
-      // If rooms match, show building with those rooms.
       if (matchingRooms.length > 0) {
         return { ...building, rooms: matchingRooms };
       }
@@ -40,10 +49,8 @@ export default function Index() {
       return null;
     }).filter((item): item is typeof BUILDINGS_DATA[0] => item !== null);
 
-    // 2. Sort Alphabetically by Building Name
     filtered.sort((a, b) => a.name.localeCompare(b.name));
 
-    // 3. Map to Accordion Items
     return filtered.map(building => ({
       id: building.id,
       title: building.name,
@@ -60,7 +67,7 @@ export default function Index() {
         style={{ flex: 1 }}
         contentContainerStyle={[
           styles.scrollContent,
-          { paddingTop: insets.top + 70 } // Dynamic padding to account for fixed header
+          { paddingTop: insets.top + headerHeight }
         ]}
       >
         <Accordion
@@ -69,11 +76,10 @@ export default function Index() {
         />
       </ScrollView>
 
-      {/* Floating Header with Fade Effect */}
-      <View style={[styles.headerContainer, { top: 0, left: 0, right: 0, height: insets.top + 70 }]}>
+      <View style={[styles.headerContainer, { top: 0, left: 0, right: 0, height: insets.top + headerHeight }]}>
         <LinearGradient
-          colors={[theme.background, theme.background, theme.background + 'CC', theme.background + '00']}
-          locations={[0, 0.6, 0.8, 1]}
+          colors={[theme.background, theme.background, theme.background + '00']}
+          locations={[0, 0.85, 1]}
           style={StyleSheet.absoluteFill}
         />
         <SafeAreaView edges={['top']}>
@@ -81,12 +87,14 @@ export default function Index() {
             <View style={[styles.searchBar, { backgroundColor: theme.card, borderColor: theme.border }]}>
               <Ionicons name="search" size={20} color={theme.subtext} />
               <TextInput
-                style={[styles.searchInput, { color: theme.text }]}
+                style={styles.searchInput}
                 placeholder="Search buildings or rooms..."
-                placeholderTextColor={theme.subtext}
+                placeholderTextColor={theme.placeholder}
                 value={searchQuery}
                 onChangeText={setSearchQuery}
-                clearButtonMode="while-editing"
+                underlineColorAndroid="transparent"
+                autoCapitalize="none"
+                autoCorrect={false}
               />
             </View>
           </View>
@@ -122,6 +130,10 @@ function createStyles(theme: Theme) {
     searchInput: {
       flex: 1,
       fontSize: 16,
+      color: theme.text,
+      height: Platform.OS === 'android' ? 40 : undefined,
+      paddingVertical: 0,
+      textAlignVertical: 'center',
     },
     scrollContent: {
       paddingHorizontal: 16,

@@ -54,7 +54,6 @@ export default function Account() {
       setUserName(user?.displayName ?? null);
 
       if (user) {
-        // 1. Check if user is admin
         try {
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists() && userDoc.data().role === "admin") {
@@ -67,7 +66,6 @@ export default function Account() {
           setIsAdmin(false);
         }
 
-        // 2. Fetch user count
         try {
           const coll = collection(db, "users");
           const snapshot = await getCountFromServer(coll);
@@ -106,7 +104,6 @@ export default function Account() {
         const trimmedName = username.trim();
         const lowerName = trimmedName.toLowerCase();
 
-        // 1. Check if username is taken in Firestore
         const nameRef = doc(db, "usernames", lowerName);
         const nameSnap = await getDoc(nameRef);
 
@@ -116,17 +113,14 @@ export default function Account() {
           return;
         }
 
-        // 2. Create Auth User
         const result = await createUserWithEmailAndPassword(
           auth,
           email.trim(),
           password
         );
 
-        // 3. Update Auth Profile
         await updateProfile(result.user, { displayName: trimmedName });
 
-        // 4. Reserve username and create user doc in Firestore
         const batch = writeBatch(db);
         batch.set(nameRef, { uid: result.user.uid });
         batch.set(doc(db, "users", result.user.uid), {

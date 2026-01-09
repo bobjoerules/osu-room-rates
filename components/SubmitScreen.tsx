@@ -72,7 +72,6 @@ export default function SubmitScreen() {
             let imageUrl = null;
 
             if (image) {
-                // Improved blob conversion for React Native
                 const blob: Blob = await new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
                     xhr.onload = function () {

@@ -17,10 +17,7 @@ export default function RootLayout() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       const loggedIn = !!user;
 
-      // If we were explicitly logged out and now we are logged in, 
-      // redirect to home to reset any deep-linked state (like the rate modal)
       if (prevIsLoggedIn.current === false && loggedIn === true) {
-        // Use replace to ensure we reset the stack
         router.replace('/');
       }
 
@@ -30,7 +27,6 @@ export default function RootLayout() {
     return unsubscribe;
   }, []);
 
-  // Show loading while checking auth state
   if (isLoggedIn === null) {
     return (
       <View style={styles.loadingContainer}>
@@ -39,7 +35,6 @@ export default function RootLayout() {
     );
   }
 
-  // Show account screen if not logged in
   if (!isLoggedIn) {
     return (
       <ThemeProvider>
@@ -60,8 +55,6 @@ function AuthenticatedStack() {
   const colorScheme = useColorScheme();
 
   useEffect(() => {
-    // Sets the root view background color to match the theme
-    // This fixes the white flash/border during transitions
     SystemUI.setBackgroundColorAsync(theme.background);
   }, [theme.background]);
 
@@ -86,7 +79,7 @@ function AuthenticatedStack() {
           screenOptions={{
             headerShown: false,
             contentStyle: { backgroundColor: theme.background },
-            animation: 'slide_from_right', // Improve transition smoothness
+            animation: 'slide_from_right',
           }}
         >
           <Stack.Screen

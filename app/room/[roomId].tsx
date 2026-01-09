@@ -23,7 +23,6 @@ export default function RoomDetail() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
 
-  // Fallback if roomId is an array (sometimes happens with dynamic routes)
   const finalRoomId = Array.isArray(roomId) ? roomId[0] : roomId;
 
   useEffect(() => {
@@ -61,17 +60,11 @@ export default function RoomDetail() {
             try {
               const batch = writeBatch(db);
 
-              // 1. Reset main aggregate
               batch.delete(doc(db, "ratings", finalRoomId as string));
 
-              // 2. Reset detail aggregates
               batch.delete(doc(db, "ratings", `${finalRoomId}_chairs`));
               batch.delete(doc(db, "ratings", `${finalRoomId}_lighting`));
               batch.delete(doc(db, "ratings", `${finalRoomId}_projector`));
-
-              // 3. Optional: Delete individual user ratings if you want a FULL reset
-              // Note: For a true full reset, you'd need to fetch and delete all docs in userRatings subcollections.
-              // This basic reset will clear the averages.
 
               await batch.commit();
               Alert.alert("Success", "Room ratings have been reset.");
@@ -238,7 +231,6 @@ export default function RoomDetail() {
         </View>
       </ScrollView>
 
-      {/* Floating Header with Fade Effect */}
       <View style={[styles.headerFloatingContainer, { top: 0, left: 0, right: 0, height: insets.top + 75 }]}>
         <LinearGradient
           colors={[theme.background, theme.background, theme.background + 'CC', theme.background + '00']}
