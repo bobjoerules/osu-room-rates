@@ -25,9 +25,10 @@ export default function Index() {
 
       const matchingRooms = building.rooms.filter(room => {
         const hasPhotos = room.images?.length > 0 && room.images[0] !== PlaceholderImage;
+        const roomName = room.id.split('-').pop() || '';
 
         if (isSearching) {
-          const nameMatch = room.name.toLowerCase().includes(lowerQuery);
+          const nameMatch = roomName.toLowerCase().includes(lowerQuery);
           const aliasMatch = room.searchAliases?.some(alias =>
             alias.toLowerCase().includes(lowerQuery)
           );

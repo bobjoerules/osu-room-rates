@@ -7,11 +7,14 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
 import {
   collection,
   doc,
   getCountFromServer,
   getDoc,
+  query,
+  where,
   writeBatch
 } from "firebase/firestore";
 import { useEffect, useMemo, useState } from "react";
@@ -45,6 +48,7 @@ export default function Account() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [userCount, setUserCount] = useState<number | null>(null);
+  const [pendingCount, setPendingCount] = useState<number | null>(null);
 
   const version = Constants.expoConfig?.version || "1.0.0";
 
@@ -58,12 +62,20 @@ export default function Account() {
           const userDoc = await getDoc(doc(db, "users", user.uid));
           if (userDoc.exists() && userDoc.data().role === "admin") {
             setIsAdmin(true);
+
+            // Fetch pending submissions count for admin
+            const submissionsColl = collection(db, "submissions");
+            const q = query(submissionsColl, where("status", "==", "pending"));
+            const snapshot = await getCountFromServer(q);
+            setPendingCount(snapshot.data().count);
           } else {
             setIsAdmin(false);
+            setPendingCount(null);
           }
         } catch (err) {
           console.error("Error checking admin status:", err);
           setIsAdmin(false);
+          setPendingCount(null);
         }
 
         try {
@@ -76,6 +88,7 @@ export default function Account() {
       } else {
         setIsAdmin(false);
         setUserCount(null);
+        setPendingCount(null);
       }
     });
     return unsub;
@@ -176,9 +189,16 @@ export default function Account() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>
-          {userEmail ? "Account" : isSignup ? "Sign up" : "Sign in"}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Text style={styles.headerTitle}>
+            {userEmail ? "Account" : isSignup ? "Sign up" : "Sign in"}
+          </Text>
+          {isAdmin && (
+            <View style={styles.adminBadge}>
+              <Text style={styles.adminBadgeText}>ADMIN</Text>
+            </View>
+          )}
+        </View>
         <Text style={styles.headerSubtitle}>
           {userEmail
             ? "Signed in with email"
@@ -191,31 +211,54 @@ export default function Account() {
         {userEmail ? (
           <View style={styles.section}>
             {userName && (
-              <>
-                <Text style={styles.label}>Username</Text>
-                <Text style={styles.value}>{userName}</Text>
-              </>
+              <View style={styles.infoRow}>
+                <View>
+                  <Text style={styles.label}>Username</Text>
+                  <Text style={styles.value}>{userName}</Text>
+                </View>
+                <Ionicons name="person-circle-outline" size={24} color={theme.subtext} />
+              </View>
             )}
-            <Text style={styles.label}>Email</Text>
-            <Text style={styles.value}>{userEmail}</Text>
-
-            <Pressable style={styles.buttonSecondary} onPress={handleSignOut}>
-              <Text style={styles.buttonText}>Sign out</Text>
-            </Pressable>
+            <View style={styles.infoRow}>
+              <View>
+                <Text style={styles.label}>Email</Text>
+                <Text style={styles.value}>{userEmail}</Text>
+              </View>
+              <Ionicons name="mail-outline" size={24} color={theme.subtext} />
+            </View>
 
             {isAdmin && (
-              <View style={styles.adminSection}>
+              <View style={styles.adminContainer}>
                 <View style={styles.separator} />
+                <Text style={styles.adminTitle}>Admin Tools</Text>
                 <Pressable
-                  style={styles.adminButton}
+                  style={({ pressed }) => [
+                    styles.adminCard,
+                    { backgroundColor: pressed ? theme.border + '44' : theme.background + '88' }
+                  ]}
                   onPress={() => {
                     router.push("/admin" as any);
                   }}
                 >
-                  <Text style={styles.adminButtonText}>Review Submissions</Text>
+                  <View style={styles.adminCardContent}>
+                    <View style={styles.adminIconContainer}>
+                      <Ionicons name="documents-outline" size={22} color={theme.primary} />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={[styles.adminCardTitle, { color: theme.text }]}>Review Submissions</Text>
+                      <Text style={[styles.adminCardSubtitle, { color: theme.subtext }]}>
+                        {pendingCount !== null ? `${pendingCount} pending reviews` : 'Manage room updates'}
+                      </Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color={theme.subtext} />
+                  </View>
                 </Pressable>
               </View>
             )}
+
+            <Pressable style={styles.buttonSecondary} onPress={handleSignOut}>
+              <Text style={styles.buttonText}>Sign out</Text>
+            </Pressable>
           </View>
         ) : (
           <View style={styles.section}>
@@ -402,20 +445,64 @@ function createStyles(theme: Theme) {
       marginTop: -4,
       marginBottom: 4,
     },
-    adminSection: {
-      marginTop: 16,
+    adminBadge: {
+      backgroundColor: theme.primary + '22',
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: theme.primary + '44',
+    },
+    adminBadgeText: {
+      color: theme.primary,
+      fontSize: 10,
+      fontWeight: '800',
+      letterSpacing: 0.5,
+    },
+    infoRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 4,
+    },
+    adminContainer: {
+      marginTop: 8,
       gap: 12,
     },
-    adminButton: {
-      paddingVertical: 12,
-      alignItems: "center",
-      marginTop: 4,
-    },
-    adminButtonText: {
-      color: theme.subtext,
-      fontWeight: "500",
+    adminTitle: {
       fontSize: 14,
-      textDecorationLine: "underline",
+      fontWeight: '600',
+      color: theme.subtext,
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+    },
+    adminCard: {
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: theme.border,
+      overflow: 'hidden',
+    },
+    adminCardContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 12,
+      gap: 12,
+    },
+    adminIconContainer: {
+      width: 40,
+      height: 40,
+      borderRadius: 10,
+      backgroundColor: theme.primary + '15',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    adminCardTitle: {
+      fontSize: 15,
+      fontWeight: '600',
+    },
+    adminCardSubtitle: {
+      fontSize: 12,
+      marginTop: 2,
     },
     separator: {
       height: 1,

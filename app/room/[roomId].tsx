@@ -49,7 +49,7 @@ export default function RoomDetail() {
   const handleResetRoom = () => {
     Alert.alert(
       "Reset Room Data",
-      `Are you sure you want to reset all ratings for ${roomData.name}? This cannot be undone.`,
+      `Are you sure you want to reset all ratings for Room ${roomData.name}? This cannot be undone.`,
       [
         { text: "Cancel", style: "cancel" },
         {
@@ -82,7 +82,7 @@ export default function RoomDetail() {
 
   const roomData = getRoomById(finalRoomId as string) || {
     id: 'unknown',
-    name: 'Unknown Room',
+    name: '???',
     building: 'Unknown Building',
     images: [require('../../assets/images/placeholder.png')],
     floor: 'Unknown',
@@ -246,7 +246,7 @@ export default function RoomDetail() {
               <Ionicons name="chevron-back" size={28} color={theme.text} />
             </TouchableOpacity>
             <Text style={[styles.headerTitle, { color: theme.text }]} numberOfLines={1}>
-              {roomData.name} - {roomData.building}
+              Room {roomData.name} - {roomData.building}
             </Text>
             <View style={{ width: 40 }} />
           </View>

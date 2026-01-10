@@ -1,7 +1,5 @@
 export interface Room {
     id: string;
-    name: string;
-    building: string;
     images: any[];
     floor: string;
     capacity: string;
@@ -22,8 +20,6 @@ export const BUILDINGS_DATA: Building[] = [
         rooms: [
             {
                 id: 'owen-hall-101',
-                name: 'Room 101',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-101.jpeg'),
                 ],
@@ -34,8 +30,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-102',
-                name: 'Room 102',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-102.jpeg'),
                 ],
@@ -46,8 +40,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-106',
-                name: 'Room 106',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-106.jpeg'),
                 ],
@@ -58,8 +50,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-109',
-                name: 'Room 109',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-109.jpeg')
                 ],
@@ -70,8 +60,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-110',
-                name: 'Room 110',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-110.jpeg')
                 ],
@@ -82,8 +70,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-217',
-                name: 'Room 217',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -94,8 +80,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-224',
-                name: 'Room 224',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-224.jpeg')
                 ],
@@ -106,8 +90,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-237',
-                name: 'Room 237',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -118,8 +100,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-241',
-                name: 'Room 241',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-241.jpeg')
                 ],
@@ -130,8 +110,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-424',
-                name: 'Room 424',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-424.jpeg')
                 ],
@@ -142,8 +120,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'owen-hall-433',
-                name: 'Room 433',
-                building: 'Owen Hall',
                 images: [
                     require('../assets/images/rooms/owen-hall-433.jpeg')
                 ],
@@ -160,8 +136,6 @@ export const BUILDINGS_DATA: Building[] = [
         rooms: [
             {
                 id: 'linc-100',
-                name: 'Room 100',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-100.jpeg')
                 ],
@@ -172,8 +146,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-128',
-                name: 'Room 128',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-128.jpeg')
                 ],
@@ -184,8 +156,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-200',
-                name: 'Room 200',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-200.jpeg')
                 ],
@@ -196,8 +166,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-210',
-                name: 'Room 210',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-210.jpeg')
                 ],
@@ -208,8 +176,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-228',
-                name: 'Room 228',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-228.jpeg')
                 ],
@@ -220,8 +186,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-268',
-                name: 'Room 268',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-268.jpeg')
                 ],
@@ -232,8 +196,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-302',
-                name: 'Room 302',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-302.jpeg')
                 ],
@@ -244,8 +206,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-303',
-                name: 'Room 303',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-303.jpeg')
                 ],
@@ -256,8 +216,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-307',
-                name: 'Room 307',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-307.jpeg')
                 ],
@@ -268,8 +226,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-314',
-                name: 'Room 314',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-314.jpeg')
                 ],
@@ -280,8 +236,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-343',
-                name: 'Room 343',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-343.jpeg')
                 ],
@@ -292,8 +246,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-345',
-                name: 'Room 345',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-345.jpeg')
                 ],
@@ -304,8 +256,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-350',
-                name: 'Room 350',
-                building: 'LINC',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -316,8 +266,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-360',
-                name: 'Room 360',
-                building: 'LINC',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -328,8 +276,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'linc-368',
-                name: 'Room 368',
-                building: 'LINC',
                 images: [
                     require('../assets/images/rooms/linc-368.jpeg')
                 ],
@@ -346,8 +292,6 @@ export const BUILDINGS_DATA: Building[] = [
         rooms: [
             {
                 id: 'wgnd-106',
-                name: 'Room 106',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-106.jpeg')
                 ],
@@ -358,8 +302,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-115',
-                name: 'Room 115',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-115.jpeg')
                 ],
@@ -370,8 +312,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-118',
-                name: 'Room 118',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-118.jpeg')
                 ],
@@ -382,8 +322,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-120',
-                name: 'Room 120',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-120.jpeg')
                 ],
@@ -394,8 +332,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-126',
-                name: 'Room 126',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-126.jpeg')
                 ],
@@ -406,8 +342,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-130',
-                name: 'Room 130',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-130.jpeg')
                 ],
@@ -418,8 +352,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-132',
-                name: 'Room 132',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-132.jpeg')
                 ],
@@ -430,8 +362,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-206',
-                name: 'Room 206',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/rooms/wgnd-206.jpeg')
                 ],
@@ -442,8 +372,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'wgnd-238',
-                name: 'Room 238',
-                building: 'Wiegand Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -460,8 +388,6 @@ export const BUILDINGS_DATA: Building[] = [
         rooms: [
             {
                 id: 'phar-107',
-                name: 'Room 107',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/rooms/phar-107.jpeg')
                 ],
@@ -472,8 +398,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'phar-213',
-                name: 'Room 213',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/rooms/phar-213.jpeg')
                 ],
@@ -484,8 +408,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'phar-219',
-                name: 'Room 219',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/rooms/phar-219.jpeg')
                 ],
@@ -496,8 +418,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'phar-227',
-                name: 'Room 227',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -508,8 +428,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'phar-237',
-                name: 'Room 237',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -520,8 +438,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'phar-305',
-                name: 'Room 305',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/rooms/phar-305.jpeg')
                 ],
@@ -532,8 +448,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'phar-329',
-                name: 'Room 329',
-                building: 'Pharmacy Building',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -550,8 +464,6 @@ export const BUILDINGS_DATA: Building[] = [
         rooms: [
             {
                 id: 'cord-1100',
-                name: 'Room 1100',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -562,8 +474,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1112',
-                name: 'Room 1112',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -574,8 +484,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1200',
-                name: 'Room 1200',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-1200.jpeg')
                 ],
@@ -586,8 +494,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1210',
-                name: 'Room 1210',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-1210.jpeg')
                 ],
@@ -598,8 +504,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1302',
-                name: 'Room 1302',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -610,8 +514,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1316',
-                name: 'Room 1316',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-1316.jpeg')
                 ],
@@ -622,8 +524,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1424',
-                name: 'Room 1424',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-1424.jpeg')
                 ],
@@ -634,8 +534,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1506',
-                name: 'Room 1506',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -646,8 +544,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1518',
-                name: 'Room 1518',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -658,8 +554,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1604',
-                name: 'Room 1604',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -670,8 +564,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-1616',
-                name: 'Room 1616',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-1616.jpeg')
                 ],
@@ -682,8 +574,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2200',
-                name: 'Room 2200',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-2200.jpeg')
                 ],
@@ -694,8 +584,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2212',
-                name: 'Room 2212',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -706,8 +594,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2306',
-                name: 'Room 2306',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -718,8 +604,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2316',
-                name: 'Room 2316',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -730,8 +614,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2406',
-                name: 'Room 2406',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -742,8 +624,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2414',
-                name: 'Room 2414',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/rooms/cord-2414.jpeg')
                 ],
@@ -754,8 +634,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-2602',
-                name: 'Room 2602',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -766,8 +644,6 @@ export const BUILDINGS_DATA: Building[] = [
             },
             {
                 id: 'cord-4629',
-                name: 'Room 4629',
-                building: 'Cordley Hall',
                 images: [
                     require('../assets/images/placeholder.png')
                 ],
@@ -779,12 +655,839 @@ export const BUILDINGS_DATA: Building[] = [
         ]
 
     },
+    {
+        id: 'mlm',
+        name: 'Milam Hall',
+        rooms: [
+            {
+                id: 'mlm-006',
+                images: [
+                    require('../assets/images/rooms/mlm-006.jpeg')
+                ],
+                floor: '0',
+                capacity: '16',
+                roomType: 'Lab Room',
+                searchAliases: ['MLM 006'],
+            },
+            {
+                id: 'mlm-019',
+                images: [
+                    require('../assets/images/rooms/mlm-019.jpeg')
+                ],
+                floor: '0',
+                capacity: '69',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 019'],
+            },
+            {
+                id: 'mlm-026',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '0',
+                capacity: 'Unknown',
+                roomType: 'Lecture Hall',
+                searchAliases: ['MLM 026'],
+            },
+            {
+                id: 'mlm-031A',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '0',
+                capacity: '14',
+                roomType: 'Lab Room',
+                searchAliases: ['MLM 031A'],
+            },
+            {
+                id: 'mlm-033',
+                images: [
+                    require('../assets/images/rooms/mlm-033.jpeg')
+                ],
+                floor: '0',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 033'],
+            },
+            {
+                id: 'mlm-119',
+                images: [
+                    require('../assets/images/rooms/mlm-119.jpeg')
+                ],
+                floor: '1',
+                capacity: '50',
+                roomType: 'Conference Room',
+                searchAliases: ['MLM 119'],
+            },
+            {
+                id: 'mlm-123',
+                images: [
+                    require('../assets/images/rooms/mlm-123.jpeg')
+                ],
+                floor: '1',
+                capacity: '62',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 123'],
+            },
+            {
+                id: 'mlm-159',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '15',
+                roomType: 'Conference Room',
+                searchAliases: ['MLM 159'],
+            },
+            {
+                id: 'mlm-202',
+                images: [
+                    require('../assets/images/rooms/mlm-202.jpeg')
+                ],
+                floor: '2',
+                capacity: '46',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 202'],
+            },
+            {
+                id: 'mlm-203',
+                images: [
+                    require('../assets/images/rooms/mlm-203.jpeg')
+                ],
+                floor: '2',
+                capacity: '45',
+                roomType: 'Lab Room',
+                searchAliases: ['MLM 203'],
+            },
+            {
+                id: 'mlm-205',
+                images: [
+                    require('../assets/images/rooms/mlm-205.jpeg')
+                ],
+                floor: '2',
+                capacity: '48',
+                roomType: 'Lab Room',
+                searchAliases: ['MLM 205'],
+            },
+            {
+                id: 'mlm-206',
+                images: [
+                    require('../assets/images/rooms/mlm-206.jpeg')
+                ],
+                floor: '2',
+                capacity: '44',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 206'],
+            },
+            {
+                id: 'mlm-213',
+                images: [
+                    require('../assets/images/rooms/mlm-213.jpeg')
+                ],
+                floor: '2',
+                capacity: '61',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 213'],
+            },
+            {
+                id: 'mlm-215',
+                images: [
+                    require('../assets/images/rooms/mlm-215.jpeg')
+                ],
+                floor: '2',
+                capacity: '48',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 215'],
+            },
+            {
+                id: 'mlm-218',
+                images: [
+                    require('../assets/images/rooms/mlm-218.jpeg')
+                ],
+                floor: '2',
+                capacity: '32',
+                roomType: 'Computer Lab',
+                searchAliases: ['MLM 218'],
+            },
+            {
+                id: 'mlm-233',
+                images: [
+                    require('../assets/images/rooms/mlm-233.jpeg')
+                ],
+                floor: '2',
+                capacity: '40',
+                roomType: 'Lab Room',
+                searchAliases: ['MLM 233'],
+            },
+            {
+                id: 'mlm-234',
+                images: [
+                    require('../assets/images/rooms/mlm-234.jpeg')
+                ],
+                floor: '2',
+                capacity: '48',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 234'],
+            },
+            {
+                id: 'mlm-236',
+                images: [
+                    require('../assets/images/rooms/mlm-236.jpeg')
+                ],
+                floor: '2',
+                capacity: '48',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 236'],
+            },
+            {
+                id: 'mlm-301',
+                images: [
+                    require('../assets/images/rooms/mlm-301.jpeg')
+                ],
+                floor: '3',
+                capacity: '24',
+                roomType: 'Meeting Room',
+                searchAliases: ['MLM 301'],
+            },
+            {
+                id: 'mlm-318',
+                images: [
+                    require('../assets/images/rooms/mlm-318.jpeg')
+                ],
+                floor: '3',
+                capacity: '64',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 318'],
+            },
+            {
+                id: 'mlm-319',
+                images: [
+                    require('../assets/images/rooms/mlm-319.jpeg')
+                ],
+                floor: '3',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 319'],
+            },
+            {
+                id: 'mlm-319A',
+                images: [
+                    require('../assets/images/rooms/mlm-319a.jpeg')
+                ],
+                floor: '3',
+                capacity: '24',
+                roomType: 'Conference Room',
+                searchAliases: ['MLM 319A'],
+            },
+            {
+                id: 'mlm-332',
+                images: [
+                    require('../assets/images/rooms/mlm-332.jpeg')
+                ],
+                floor: '3',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 332'],
+            },
+            {
+                id: 'mlm-335',
+                images: [
+                    require('../assets/images/rooms/mlm-335.jpeg')
+                ],
+                floor: '3',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 335'],
+            },
+            {
+                id: 'mlm-336',
+                images: [
+                    require('../assets/images/rooms/mlm-336.jpeg')
+                ],
+                floor: '3',
+                capacity: '25',
+                roomType: 'Lab Classroom',
+                searchAliases: ['MLM 336'],
+            },
+            {
+                id: 'mlm-337',
+                images: [
+                    require('../assets/images/rooms/mlm-337.jpeg')
+                ],
+                floor: '3',
+                capacity: '43',
+                roomType: 'Classroom',
+                searchAliases: ['MLM 337'],
+            },
+        ]
+    },
+    {
+        id: 'casc',
+        name: 'Cascade Hall',
+        rooms: [
+            {
+                id: 'casc-118',
+                images: [
+                    require('../assets/images/rooms/casc-118.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 118'],
+            },
+            {
+                id: 'casc-120',
+                images: [
+                    require('../assets/images/rooms/casc-120.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 120'],
+            },
+            {
+                id: 'casc-134',
+                images: [
+                    require('../assets/images/rooms/casc-134.jpeg')
+                ],
+                floor: '1',
+                capacity: '31',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 134'],
+            },
+            {
+                id: 'casc-135',
+                images: [
+                    require('../assets/images/rooms/casc-135.jpeg')
+                ],
+                floor: '1',
+                capacity: '27',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 135'],
+            },
+            {
+                id: 'casc-137',
+                images: [
+                    require('../assets/images/rooms/casc-137.jpeg')
+                ],
+                floor: '1',
+                capacity: '32',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 137'],
+            },
+            {
+                id: 'casc-139',
+                images: [
+                    require('../assets/images/rooms/casc-139.jpeg')
+                ],
+                floor: '1',
+                capacity: '25',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 139'],
+            },
+            {
+                id: 'casc-141',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '31',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 141'],
+            },
+            {
+                id: 'casc-143',
+                images: [
+                    require('../assets/images/rooms/casc-143.jpeg')
+                ],
+                floor: '1',
+                capacity: '36',
+                roomType: 'Classroom',
+                searchAliases: ['CASC 143'],
+            },
+        ]
+    },
+    {
+        id: 'stag',
+        name: 'Strand Agriculture Hall',
+        rooms: [
+            {
+                id: 'stag-110',
+                images: [
+                    require('../assets/images/rooms/stag-110.jpeg')
+                ],
+                floor: '1',
+                capacity: '38',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 110'],
+            },
+            {
+                id: 'stag-111',
+                images: [
+                    require('../assets/images/rooms/stag-111.jpeg')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 111'],
+            },
+            {
+                id: 'stag-112',
+                images: [
+                    require('../assets/images/rooms/stag-112.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 112'],
+            },
+            {
+                id: 'stag-113',
+                images: [
+                    require('../assets/images/rooms/stag-113.jpeg')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 113'],
+            },
+            {
+                id: 'stag-118',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '13',
+                roomType: 'Unknown',
+                searchAliases: ['STAG 118'],
+            },
+            {
+                id: 'stag-131',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 131'],
+            },
+            {
+                id: 'stag-160',
+                images: [
+                    require('../assets/images/rooms/stag-160.jpeg')
+                ],
+                floor: '1',
+                capacity: '38',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 160'],
+            },
+            {
+                id: 'stag-161',
+                images: [
+                    require('../assets/images/rooms/stag-161.jpeg')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 161'],
+            },
+            {
+                id: 'stag-162',
+                images: [
+                    require('../assets/images/rooms/stag-162.jpeg')
+                ],
+                floor: '1',
+                capacity: '38',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 162'],
+            },
+            {
+                id: 'stag-163',
+                images: [
+                    require('../assets/images/rooms/stag-163.jpeg')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 163'],
+            },
+            {
+                id: 'stag-210',
+                images: [
+                    require('../assets/images/rooms/stag-210.jpeg')
+                ],
+                floor: '2',
+                capacity: '38',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 210'],
+            },
+            {
+                id: 'stag-211',
+                images: [
+                    require('../assets/images/rooms/stag-211.jpeg')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 211'],
+            },
+            {
+                id: 'stag-212',
+                images: [
+                    require('../assets/images/rooms/stag-212.jpeg')
+                ],
+                floor: '2',
+                capacity: '38',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 212'],
+            },
+            {
+                id: 'stag-213',
+                images: [
+                    require('../assets/images/rooms/stag-213.jpeg')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 213'],
+            },
+            {
+                id: 'stag-240',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '24',
+                roomType: 'Conference Room',
+                searchAliases: ['STAG 240'],
+            },
+            {
+                id: 'stag-260',
+                images: [
+                    require('../assets/images/rooms/stag-260.jpeg')
+                ],
+                floor: '2',
+                capacity: '40',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 260'],
+            },
+            {
+                id: 'stag-261',
+                images: [
+                    require('../assets/images/rooms/stag-261.jpeg')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 261'],
+            },
+            {
+                id: 'stag-262',
+                images: [
+                    require('../assets/images/rooms/stag-262.jpeg')
+                ],
+                floor: '2',
+                capacity: '40',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 262'],
+            },
+            {
+                id: 'stag-263',
+                images: [
+                    require('../assets/images/rooms/stag-263.jpeg')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 263'],
+            },
+            {
+                id: 'stag-311',
+                images: [
+                    require('../assets/images/rooms/stag-311.jpeg')
+                ],
+                floor: '3',
+                capacity: '39',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 311'],
+            },
+            {
+                id: 'stag-313',
+                images: [
+                    require('../assets/images/rooms/stag-313.jpeg')
+                ],
+                floor: '3',
+                capacity: '32',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 313'],
+            },
+            {
+                id: 'stag-340',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '3',
+                capacity: '26',
+                roomType: 'Classroom',
+                searchAliases: ['STAG 340'],
+            },
+            {
+                id: 'stag-361',
+                images: [
+                    require('../assets/images/rooms/stag-361.jpeg')
+                ],
+                floor: '3',
+                capacity: '31',
+                roomType: 'Computer Lab/Classroom',
+                searchAliases: ['STAG 361'],
+            },
+            {
+                id: 'stag-363',
+                images: [
+                    require('../assets/images/rooms/stag-363.jpeg')
+                ],
+                floor: '3',
+                capacity: '29',
+                roomType: 'Computer Lab/Classroom',
+                searchAliases: ['STAG 363'],
+            },
+        ]
+    },
+    {
+        id: 'als',
+        name: 'Agricultural & Life Sciences',
+        rooms: [
+            {
+                id: 'als-0006',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '0',
+                capacity: '43',
+                roomType: 'Classroom',
+                searchAliases: ['ALS 0006'],
+            },
+            {
+                id: 'als-0007',
+                images: [
+                    require('../assets/images/rooms/als-0007.jpeg')
+                ],
+                floor: '0',
+                capacity: '31',
+                roomType: 'Lab Room',
+                searchAliases: ['ALS 0007'],
+            },
+            {
+                id: 'als-0012',
+                images: [
+                    require('../assets/images/rooms/als-0012.jpeg')
+                ],
+                floor: '0',
+                capacity: '32',
+                roomType: 'Lab Classroom',
+                searchAliases: ['ALS 0012'],
+            },
+            {
+                id: 'als-0018',
+                images: [
+                    require('../assets/images/rooms/als-0018.jpeg')
+                ],
+                floor: '0',
+                capacity: '25',
+                roomType: 'Lab Classroom',
+                searchAliases: ['ALS 0018'],
+            },
+            {
+                id: 'als-0023',
+                images: [
+                    require('../assets/images/rooms/als-0023.jpeg')
+                ],
+                floor: '0',
+                capacity: '63',
+                roomType: 'Lab Room',
+                searchAliases: ['ALS 0023'],
+            },
+            {
+                id: 'als-1019A',
+                images: [
+                    require('../assets/images/rooms/als-1019A.jpeg')
+                ],
+                floor: '1',
+                capacity: '12',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 1019A'],
+            },
+            {
+                id: 'als-1019B',
+                images: [
+                    require('../assets/images/rooms/als-1019B.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 1019B'],
+            },
+            {
+                id: 'als-1019C',
+                images: [
+                    require('../assets/images/rooms/als-1019C.jpeg')
+                ],
+                floor: '1',
+                capacity: '40',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 1019C'],
+            },
+            {
+                id: 'als-2009A',
+                images: [
+                    require('../assets/images/rooms/als-2009A.jpeg')
+                ],
+                floor: '2',
+                capacity: '24',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 2009A'],
+            },
+            {
+                id: 'als-2018',
+                images: [
+                    require('../assets/images/rooms/als-2018.jpeg')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['ALS 2018'],
+            },
+            {
+                id: 'als-2034',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '14',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 2034'],
+            },
+            {
+                id: 'als-2040',
+                images: [
+                    require('../assets/images/rooms/als-2040.jpeg')
+                ],
+                floor: '2',
+                capacity: '20',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 2040'],
+            },
+            {
+                id: 'als-2114',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '16',
+                roomType: 'Unknown',
+                searchAliases: ['ALS 2114'],
+            },
+            {
+                id: 'als-2116',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '16',
+                roomType: 'Unknown',
+                searchAliases: ['ALS 2116'],
+            },
+            {
+                id: 'als-3005',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '3',
+                capacity: '47',
+                roomType: 'Classroom',
+                searchAliases: ['ALS 3005'],
+            },
+            {
+                id: 'als-3006A',
+                images: [
+                    require('../assets/images/rooms/als-3006A.jpeg')
+                ],
+                floor: '3',
+                capacity: '22',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 3006A'],
+            },
+            {
+                id: 'als-3096',
+                images: [
+                    require('../assets/images/rooms/als-3096.jpeg')
+                ],
+                floor: '3',
+                capacity: '18',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 3096'],
+            },
+            {
+                id: 'als-4000',
+                images: [
+                    require('../assets/images/rooms/als-4000.jpeg')
+                ],
+                floor: '4',
+                capacity: '65',
+                roomType: 'Classroom',
+                searchAliases: ['ALS 4000'],
+            },
+            {
+                id: 'als-4001',
+                images: [
+                    require('../assets/images/rooms/als-4001.jpeg')
+                ],
+                floor: '4',
+                capacity: '96',
+                roomType: 'Lecture Hall',
+                searchAliases: ['ALS 4001'],
+            },
+            {
+                id: 'als-4009',
+                images: [
+                    require('../assets/images/rooms/als-4009.jpeg')
+                ],
+                floor: '4',
+                capacity: '20',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 4009'],
+            },
+            {
+                id: 'als-4103',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '14',
+                roomType: 'Conference Room',
+                searchAliases: ['ALS 4103'],
+            },
+            {
+                id: 'als-4120B',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '20',
+                roomType: 'Lab Room',
+                searchAliases: ['ALS 4120B'],
+            }
+        ]
+    },
 ];
 
-export function getRoomById(roomId: string): Room | null {
+export function getRoomById(roomId: string): (Room & { building: string, name: string }) | null {
     for (const building of BUILDINGS_DATA) {
         const room = building.rooms.find(r => r.id === roomId);
-        if (room) return room;
+        if (room) {
+            const name = room.id.split('-').pop() || '???';
+            return { ...room, building: building.name, name };
+        }
     }
     return null;
 }

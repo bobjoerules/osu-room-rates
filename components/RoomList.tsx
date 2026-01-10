@@ -20,22 +20,25 @@ export default function RoomList({ rooms }: RoomListProps) {
     router.push(`/room/${roomId}`);
   };
 
-  const renderRoomItem = ({ item }: { item: Room }) => (
-    <TouchableOpacity
-      style={styles.roomCard}
-      onPress={() => handleRoomPress(item.id)}
-      activeOpacity={0.7}
-    >
-      {item.images && item.images.length > 0 && (
-        <Image source={item.images[0]} style={styles.roomImage} transition={300} />
-      )}
-      <View style={styles.roomContent}>
-        <Text style={[styles.roomName, { color: theme.text }]}>{item.name}</Text>
-        <RatingDisplay itemId={item.id} size={16} align="flex-start" />
-      </View>
-      <Ionicons name="chevron-forward" size={20} color={theme.subtext} />
-    </TouchableOpacity>
-  );
+  const renderRoomItem = ({ item }: { item: Room }) => {
+    const roomName = item.id.split('-').pop() || '???';
+    return (
+      <TouchableOpacity
+        style={styles.roomCard}
+        onPress={() => handleRoomPress(item.id)}
+        activeOpacity={0.7}
+      >
+        {item.images && item.images.length > 0 && (
+          <Image source={item.images[0]} style={styles.roomImage} transition={300} />
+        )}
+        <View style={styles.roomContent}>
+          <Text style={[styles.roomName, { color: theme.text }]}>Room {roomName}</Text>
+          <RatingDisplay itemId={item.id} size={16} align="flex-start" />
+        </View>
+        <Ionicons name="chevron-forward" size={20} color={theme.subtext} />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <FlatList
