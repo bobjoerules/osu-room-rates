@@ -1,6 +1,21 @@
 import { Icon, Label, NativeTabs } from 'expo-router/unstable-native-tabs';
+import { usePathname } from 'expo-router';
+import { useEffect, useRef } from 'react';
+import { useHapticFeedback } from '../../lib/SettingsContext';
 
 export default function TabLayout() {
+    const pathname = usePathname();
+    const triggerHaptic = useHapticFeedback();
+    const lastPathname = useRef(pathname);
+
+    useEffect(() => {
+        // Trigger haptic when pathname changes (tab switching)
+        if (pathname !== lastPathname.current) {
+            triggerHaptic();
+            lastPathname.current = pathname;
+        }
+    }, [pathname, triggerHaptic]);
+
     return (
         <NativeTabs
             tintColor="#D73F09">

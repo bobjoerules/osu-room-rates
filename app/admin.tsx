@@ -8,14 +8,17 @@ import {
     Alert,
     Dimensions,
     FlatList,
+    Platform,
     Pressable,
     StyleSheet,
     Text,
+    useWindowDimensions,
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../firebaseConfig';
 import { useTheme } from '../theme';
+import { useHapticFeedback } from '../lib/SettingsContext';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -34,6 +37,8 @@ interface Submission {
 export default function AdminScreen() {
     const theme = useTheme();
     const router = useRouter();
+    const triggerHaptic = useHapticFeedback();
+    const { width: windowWidth } = useWindowDimensions();
     const horizontalListRef = useRef<FlatList>(null);
     const [submissions, setSubmissions] = useState<Submission[]>([]);
     const [loading, setLoading] = useState(true);
@@ -72,6 +77,7 @@ export default function AdminScreen() {
     }, [submissions]);
 
     const handleAction = async (id: string, status: 'approved' | 'rejected') => {
+        triggerHaptic();
         try {
             await updateDoc(doc(db, 'submissions', id), {
                 status,
@@ -84,6 +90,7 @@ export default function AdminScreen() {
     };
 
     const handleDelete = async (id: string) => {
+        triggerHaptic();
         Alert.alert(
             'Delete Permanently?',
             'This will remove this submission from the database forever.',
@@ -93,6 +100,7 @@ export default function AdminScreen() {
                     text: 'Delete',
                     style: 'destructive',
                     onPress: async () => {
+                        triggerHaptic();
                         try {
                             await deleteDoc(doc(db, 'submissions', id));
                         } catch (error) {
@@ -106,14 +114,21 @@ export default function AdminScreen() {
     };
 
     const handleTabPress = (status: 'pending' | 'approved' | 'rejected') => {
+        triggerHaptic();
         setStatusFilter(status);
-        const index = statuses.indexOf(status);
-        horizontalListRef.current?.scrollToIndex({ index, animated: true });
+        if (Platform.OS !== 'web') {
+            const index = statuses.indexOf(status);
+            horizontalListRef.current?.scrollToIndex({ index, animated: true });
+        }
     };
 
     const onMomentumScrollEnd = (event: any) => {
-        const index = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-        setStatusFilter(statuses[index]);
+        if (Platform.OS === 'web') return;
+        const index = Math.round(event.nativeEvent.contentOffset.x / windowWidth);
+        if (statuses[index] !== statusFilter) {
+            triggerHaptic();
+            setStatusFilter(statuses[index]);
+        }
     };
 
     const renderSubmissionItem = ({ item }: { item: Submission }) => (
@@ -176,7 +191,7 @@ export default function AdminScreen() {
         const pageSubmissions = groupedSubmissions[status];
 
         return (
-            <View style={{ width: SCREEN_WIDTH }}>
+            <View style={{ width: Platform.OS === 'web' ? '100%' : windowWidth }}>
                 {loading ? (
                     <View style={styles.centered}>
                         <ActivityIndicator size="large" color={theme.primary} />
@@ -193,7 +208,10 @@ export default function AdminScreen() {
                         data={pageSubmissions}
                         renderItem={renderSubmissionItem}
                         keyExtractor={item => item.id}
-                        contentContainerStyle={styles.listContent}
+                        contentContainerStyle={[
+                            styles.listContent,
+                            Platform.OS === 'web' && { maxWidth: 800, alignSelf: 'center', width: '100%' }
+                        ]}
                     />
                 )}
             </View>
@@ -212,7 +230,7 @@ export default function AdminScreen() {
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={['top']}>
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable onPress={() => { triggerHaptic(); router.back(); }} style={styles.backButton}>
                     <Ionicons name="chevron-back" size={28} color={theme.text} />
                 </Pressable>
                 <Text style={[styles.headerTitle, { color: theme.text }]}>Review Submissions</Text>
@@ -244,16 +262,27 @@ export default function AdminScreen() {
                 })}
             </View>
 
-            <FlatList
-                ref={horizontalListRef}
-                data={statuses}
-                renderItem={renderPage}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                onMomentumScrollEnd={onMomentumScrollEnd}
-                keyExtractor={item => item}
-            />
+            {Platform.OS === 'web' ? (
+                <View style={{ flex: 1 }}>
+                    {renderPage({ item: statusFilter })}
+                </View>
+            ) : (
+                <FlatList
+                    ref={horizontalListRef}
+                    data={statuses}
+                    renderItem={renderPage}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    onMomentumScrollEnd={onMomentumScrollEnd}
+                    keyExtractor={item => item}
+                    getItemLayout={(_, index) => ({
+                        length: windowWidth,
+                        offset: windowWidth * index,
+                        index,
+                    })}
+                />
+            )}
         </SafeAreaView>
     );
 }

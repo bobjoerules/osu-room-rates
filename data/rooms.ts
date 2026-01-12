@@ -3791,6 +3791,620 @@ export const BUILDINGS_DATA: Building[] = [
                 roomType: 'Classroom',
                 searchAliases: ['ILLC 353'],
             },
+            {
+                id: 'illc-355',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '3',
+                capacity: '25',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 355'],
+            },
+            {
+                id: 'illc-442',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '24',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 442'],
+            },
+            {
+                id: 'illc-444',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '25',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 444'],
+            },
+            {
+                id: 'illc-450',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 450'],
+            },
+            {
+                id: 'illc-450-452',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '46',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 450-452'],
+            },
+            {
+                id: 'illc-452',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 452'],
+            },
+            {
+                id: 'illc-453',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 453'],
+            },
+            {
+                id: 'illc-455',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '4',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 455'],
+            },
+            {
+                id: 'illc-542',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 542'],
+            },
+            {
+                id: 'illc-544',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 544'],
+            },
+            {
+                id: 'illc-545',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 545'],
+            },
+            {
+                id: 'illc-545-547',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '46',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 545-547'],
+            },
+            {
+                id: 'illc-547',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 547'],
+            },
+            {
+                id: 'illc-550',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 550'],
+            },
+            {
+                id: 'illc-550-552',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '46',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 550-552'],
+            },
+            {
+                id: 'illc-552',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 552'],
+            },
+            {
+                id: 'illc-553',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 553'],
+            },
+            {
+                id: 'illc-555',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '5',
+                capacity: '23',
+                roomType: 'Classroom',
+                searchAliases: ['ILLC 555'],
+            },
+        ]
+    },
+    {
+        id: 'john',
+        name: 'Johnson Hall ',
+        rooms: [
+            {
+                id: 'john-102',
+                images: [
+                    require('../assets/images/rooms/john-102.jpeg')
+                ],
+                floor: '1',
+                capacity: '118',
+                roomType: 'Lecture Hall',
+                searchAliases: ['JOHN 102'],
+            },
+            {
+                id: 'john-214',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '32',
+                roomType: 'Lab Room',
+                searchAliases: ['JOHN 214'],
+            },
+            {
+                id: 'john-214B',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '15',
+                roomType: 'Lab Room',
+                searchAliases: ['JOHN 214'],
+            },
+            {
+                id: 'john-221',
+                images: [
+                    require('../assets/images/rooms/john-221.jpeg')
+                ],
+                floor: '2',
+                capacity: '48',
+                roomType: 'Classroom',
+                searchAliases: ['JOHN 221'],
+            },
+            {
+                id: 'john-300',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '3',
+                capacity: '26',
+                roomType: 'Lab Room',
+                searchAliases: ['JOHN 300'],
+            },
+            {
+                id: 'john-316A',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '3',
+                capacity: '10',
+                roomType: 'Conference Room',
+                searchAliases: ['JOHN 316A'],
+            },
+        ]
+    },
+    {
+        id: 'kear',
+        name: 'Kearney Hall',
+        rooms: [
+            {
+                id: 'kear-112',
+                images: [
+                    require('../assets/images/rooms/kear-112.jpeg')
+                ],
+                floor: '1',
+                capacity: '106',
+                roomType: 'Lecture Hall',
+                searchAliases: ['KEAR 112'],
+            },
+            {
+                id: 'kear-124',
+                images: [
+                    require('../assets/images/rooms/kear-124.jpeg')
+                ],
+                floor: '1',
+                capacity: '34',
+                roomType: 'Classroom',
+                searchAliases: ['KEAR 124'],
+            },
+            {
+                id: 'kear-202',
+                images: [
+                    require('../assets/images/rooms/kear-202.jpeg')
+                ],
+                floor: '2',
+                capacity: '24',
+                roomType: 'Classroom',
+                searchAliases: ['KEAR 202'],
+            },
+            {
+                id: 'kear-205',
+                images: [
+                    require('../assets/images/rooms/kear-205.jpeg')
+                ],
+                floor: '2',
+                capacity: '24',
+                roomType: 'Classroom',
+                searchAliases: ['KEAR 205'],
+            },
+            {
+                id: 'kear-212',
+                images: [
+                    require('../assets/images/rooms/kear-212.jpeg')
+                ],
+                floor: '2',
+                capacity: '83',
+                roomType: 'Classroom',
+                searchAliases: ['KEAR 212'],
+            },
+            {
+                id: 'kear-302',
+                images: [
+                    require('../assets/images/rooms/kear-302.jpeg')
+                ],
+                floor: '3',
+                capacity: '30',
+                roomType: 'Computer Lab',
+                searchAliases: ['KEAR 302'],
+            },
+            {
+                id: 'kear-305',
+                images: [
+                    require('../assets/images/rooms/kear-305.jpeg')
+                ],
+                floor: '3',
+                capacity: '63',
+                roomType: 'Classroom',
+                searchAliases: ['KEAR 305'],
+            },
+            {
+                id: 'kear-312',
+                images: [
+                    require('../assets/images/rooms/kear-312.jpeg')
+                ],
+                floor: '3',
+                capacity: '84',
+                roomType: 'Classroom',
+                searchAliases: ['KEAR 312'],
+            },
+        ]
+    },
+    {
+        id: 'kec',
+        name: 'Kelley Engineering Center',
+        rooms: [
+            {
+                id: 'kec-1001',
+                images: [
+                    require('../assets/images/rooms/kec-1001.jpeg')
+                ],
+                floor: '1',
+                capacity: '70',
+                roomType: 'Classroom',
+                searchAliases: ['KEC 1001'],
+            },
+            {
+                id: 'kec-1003',
+                images: [
+                    require('../assets/images/rooms/kec-1003.jpeg')
+                ],
+                floor: '1',
+                capacity: '66',
+                roomType: 'Classroom',
+                searchAliases: ['KEC 1003'],
+            },
+            {
+                id: 'kec-1005',
+                images: [
+                    require('../assets/images/rooms/kec-1005.jpeg')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['KEC 1005'],
+            },
+            {
+                id: 'kec-1007',
+                images: [
+                    require('../assets/images/rooms/kec-1007.jpeg')
+                ],
+                floor: '1',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['KEC 1007'],
+            },
+        ]
+    },
+    {
+        id: 'kidd',
+        name: 'Kidder Hall',
+        rooms: [
+            {
+                id: 'kidd-022',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '0',
+                capacity: '0 (No one can be in it as if you enter you will disappear for ever)',
+                roomType: 'Conference Room',
+                searchAliases: ['KIDD 022'],
+            },
+            {
+                id: 'kidd-028',
+                images: [
+                    require('../assets/images/rooms/kidd-028.jpeg')
+                ],
+                floor: '0',
+                capacity: '34',
+                roomType: 'Computer Lab',
+                searchAliases: ['KIDD 028'],
+            },
+            {
+                id: 'kidd-033',
+                images: [
+                    require('../assets/images/rooms/kidd-033.jpeg')
+                ],
+                floor: '0',
+                capacity: '26',
+                roomType: 'Computer Lab',
+                searchAliases: ['KIDD 033'],
+            },
+            {
+                id: 'kidd-070',
+                images: [
+                    require('../assets/images/rooms/kidd-070.jpeg')
+                ],
+                floor: '0',
+                capacity: '21',
+                roomType: 'Conference Room',
+                searchAliases: ['KIDD 070'],
+            },
+            {
+                id: 'kidd-108',
+                images: [
+                    require('../assets/images/rooms/kidd-108.jpeg')
+                ],
+                floor: '1',
+                capacity: '50',
+                roomType: 'Classroom/Lab Room',
+                searchAliases: ['KIDD 108'],
+            },
+            {
+                id: 'kidd-108G',
+                images: [
+                    require('../assets/images/rooms/kidd-108G.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Computer Lab',
+                searchAliases: ['KIDD 108G'],
+            },
+            {
+                id: 'kidd-108H',
+                images: [
+                    require('../assets/images/rooms/kidd-108H.jpeg')
+                ],
+                floor: '1',
+                capacity: '62',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 108H'],
+            },
+            {
+                id: 'kidd-108J',
+                images: [
+                    require('../assets/images/rooms/kidd-108J.jpeg')
+                ],
+                floor: '1',
+                capacity: '24',
+                roomType: 'Computer Lab',
+                searchAliases: ['KIDD 108J'],
+            },
+            {
+                id: 'kidd-128',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '1',
+                capacity: '49',
+                roomType: 'Dean\'s Office and Reception',
+                searchAliases: ['KIDD 128', 'Dean\'s Office and Reception'],
+            },
+            {
+                id: 'kidd-128B',
+                images: [
+                    require('../assets/images/rooms/kidd-128B.jpeg')
+                ],
+                floor: '1',
+                capacity: '12',
+                roomType: 'Dean\'s Office Conference Room',
+                searchAliases: ['KIDD 128B', 'Dean\'s Office Conference Room'],
+            },
+            {
+                id: 'kidd-200',
+                images: [
+                    require('../assets/images/rooms/kidd-200.jpeg')
+                ],
+                floor: '2',
+                capacity: '15',
+                roomType: 'Conference Room',
+                searchAliases: ['KIDD 200'],
+            },
+            {
+                id: 'kidd-202',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '30',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 202'],
+            },
+            {
+                id: 'kidd-228',
+                images: [
+                    require('../assets/images/placeholder.png')
+                ],
+                floor: '2',
+                capacity: '3 (A very small class I guess)',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 228'],
+            },
+            {
+                id: 'kidd-236',
+                images: [
+                    require('../assets/images/rooms/kidd-236.jpeg')
+                ],
+                floor: '2',
+                capacity: '25',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 236'],
+            },
+            {
+                id: 'kidd-237',
+                images: [
+                    require('../assets/images/rooms/kidd-237.jpeg')
+                ],
+                floor: '2',
+                capacity: '27',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 237'],
+            },
+            {
+                id: 'kidd-238',
+                images: [
+                    require('../assets/images/rooms/kidd-238.jpeg')
+                ],
+                floor: '2',
+                capacity: '27',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 238'],
+            },
+            {
+                id: 'kidd-274',
+                images: [
+                    require('../assets/images/rooms/kidd-274.jpeg')
+                ],
+                floor: '2',
+                capacity: '18',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 274'],
+            },
+            {
+                id: 'kidd-278',
+                images: [
+                    require('../assets/images/rooms/kidd-278.jpeg')
+                ],
+                floor: '2',
+                capacity: '44',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 278'],
+            },
+            {
+                id: 'kidd-280',
+                images: [
+                    require('../assets/images/rooms/kidd-280.jpeg')
+                ],
+                floor: '2',
+                capacity: '37',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 280'],
+            },
+            {
+                id: 'kidd-350',
+                images: [
+                    require('../assets/images/rooms/kidd-350.jpeg')
+                ],
+                floor: '3',
+                capacity: '109',
+                roomType: 'Lecture Hall',
+                searchAliases: ['KIDD 350'],
+            },
+            {
+                id: 'kidd-356',
+                images: [
+                    require('../assets/images/rooms/kidd-356.jpeg')
+                ],
+                floor: '3',
+                capacity: '16',
+                roomType: 'Classroom',
+                searchAliases: ['KIDD 356'],
+            },
+            {
+                id: 'kidd-358',
+                images: [
+                    require('../assets/images/rooms/kidd-358.jpeg')
+                ],
+                floor: '3',
+                capacity: '12',
+                roomType: 'Conference Room',
+                searchAliases: ['KIDD 358'],
+            },
+            {
+                id: 'kidd-364',
+                images: [
+                    require('../assets/images/rooms/kidd-364.jpeg')
+                ],
+                floor: '3',
+                capacity: '109',
+                roomType: 'Lecture Hall',
+                searchAliases: ['KIDD 364'],
+            },
         ]
     }
 ];

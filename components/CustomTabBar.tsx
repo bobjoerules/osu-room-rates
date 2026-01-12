@@ -3,12 +3,14 @@ import { useRouter, usePathname } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
+import { useHapticFeedback } from '../lib/SettingsContext';
 
 export default function CustomTabBar() {
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
   const theme = useTheme();
+  const triggerHaptic = useHapticFeedback();
 
   const isHome = pathname === '/' || pathname === '/index';
   const isAccount = pathname === '/account';
@@ -22,7 +24,10 @@ export default function CustomTabBar() {
     }]}>
       <TouchableOpacity 
         style={styles.tab} 
-        onPress={() => router.push('/submit')}
+        onPress={() => {
+          triggerHaptic();
+          router.push('/submit');
+        }}
       >
         <Ionicons 
           name={isSubmit ? 'plus-circle' : 'plus-circle-outline'} 
@@ -34,7 +39,10 @@ export default function CustomTabBar() {
 
       <TouchableOpacity 
         style={styles.tab} 
-        onPress={() => router.push('/')}
+        onPress={() => {
+          triggerHaptic();
+          router.push('/');
+        }}
       >
         <Ionicons 
           name={isHome ? 'grid' : 'grid-outline'} 
@@ -46,7 +54,10 @@ export default function CustomTabBar() {
       
       <TouchableOpacity 
         style={styles.tab} 
-        onPress={() => router.push('/account')}
+        onPress={() => {
+          triggerHaptic();
+          router.push('/account');
+        }}
       >
         <Ionicons 
           name={isAccount ? 'person' : 'person-outline'} 

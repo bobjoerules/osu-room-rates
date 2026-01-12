@@ -11,6 +11,7 @@ import RatingDisplay from '../../components/RatingDisplay';
 import { getRoomById } from '../../data/rooms';
 import { auth, db } from '../../firebaseConfig';
 import { Theme, useTheme } from '../../theme';
+import { useHapticFeedback } from '../../lib/SettingsContext';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -18,6 +19,7 @@ export default function RoomDetail() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>();
   const router = useRouter();
   const theme = useTheme();
+  const triggerHaptic = useHapticFeedback();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -47,6 +49,7 @@ export default function RoomDetail() {
   }, []);
 
   const handleResetRoom = () => {
+    triggerHaptic();
     Alert.alert(
       "Reset Room Data",
       `Are you sure you want to reset all ratings for Room ${roomData.name}? This cannot be undone.`,
@@ -56,6 +59,7 @@ export default function RoomDetail() {
           text: "Reset",
           style: "destructive",
           onPress: async () => {
+            triggerHaptic();
             setResetLoading(true);
             try {
               const batch = writeBatch(db);
@@ -171,7 +175,7 @@ export default function RoomDetail() {
 
             <TouchableOpacity
               style={[styles.rateButton, { backgroundColor: theme.primary, marginTop: 16, flexDirection: 'row', gap: 8 }]}
-              onPress={() => router.push(`/room/${finalRoomId}/rate`)}
+              onPress={() => { triggerHaptic(); router.push(`/room/${finalRoomId}/rate`); }}
             >
               <Ionicons name="pencil" size={18} color="#fff" />
               <Text style={styles.rateButtonText}>Rate Room</Text>
@@ -240,7 +244,7 @@ export default function RoomDetail() {
         <SafeAreaView edges={['top']}>
           <View style={styles.header}>
             <TouchableOpacity
-              onPress={() => router.back()}
+              onPress={() => { triggerHaptic(); router.back(); }}
               style={styles.backButton}
             >
               <Ionicons name="chevron-back" size={28} color={theme.text} />

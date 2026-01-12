@@ -142,7 +142,7 @@ export default function SubmitScreen() {
                 >
                     <View style={styles.header}>
                         {(initialBuilding || initialRoomNumber) ? (
-                            <Pressable onPress={() => router.back()} style={styles.backButton}>
+                            <Pressable onPress={() => { triggerHaptic(); router.back(); }} style={styles.backButton}>
                                 <Ionicons name="close" size={28} color={theme.text} />
                             </Pressable>
                         ) : (

@@ -4,16 +4,19 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import StarRating from '../../../../components/StarRating';
 import { Theme, useTheme } from '../../../../theme';
+import { useHapticFeedback } from '../../../../lib/SettingsContext';
 
 export default function RateRoomModal() {
     const { roomId } = useLocalSearchParams<{ roomId: string }>();
     const router = useRouter();
     const theme = useTheme();
+    const triggerHaptic = useHapticFeedback();
     const styles = useMemo(() => createStyles(theme), [theme]);
 
     const finalRoomId = Array.isArray(roomId) ? roomId[0] : roomId;
 
     const handleClose = () => {
+        triggerHaptic();
         if (router.canGoBack()) {
             router.back();
         } else {

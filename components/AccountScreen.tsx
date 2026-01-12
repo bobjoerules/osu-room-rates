@@ -32,6 +32,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, db } from "../firebaseConfig";
 import { Theme, useTheme } from "../theme";
 import { useSettings, useHapticFeedback } from "../lib/SettingsContext";
+import { BUILDINGS_DATA } from "../data/rooms";
 
 export default function Account() {
   const theme = useTheme();
@@ -39,6 +40,10 @@ export default function Account() {
   const triggerHaptic = useHapticFeedback();
   const router = useRouter();
   const styles = useMemo(() => createStyles(theme), [theme]);
+
+  const totalRooms = useMemo(() => {
+    return BUILDINGS_DATA.reduce((acc, building) => acc + building.rooms.length, 0);
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -389,7 +394,7 @@ export default function Account() {
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          {userCount !== null ? `Users: ${userCount} • ` : ""}Version {version}
+          {userCount !== null ? `Users: ${userCount} • ` : ""}Rooms: {totalRooms} • Version {version}
         </Text>
       </View>
     </SafeAreaView>
