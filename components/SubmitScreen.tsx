@@ -46,8 +46,7 @@ export default function SubmitScreen() {
     const pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: 'images',
-            allowsEditing: true,
-            aspect: [4, 3],
+            allowsEditing: false,
             quality: 0.8,
         });
 
@@ -244,16 +243,28 @@ export default function SubmitScreen() {
                         />
 
                         <Text style={styles.label}>Photo (Recommended)</Text>
-                        <Pressable style={styles.imagePicker} onPress={pickImage}>
-                            {image ? (
-                                <Image source={{ uri: image }} style={styles.previewImage} contentFit="cover" />
-                            ) : (
-                                <View style={styles.imagePlaceholder}>
-                                    <Ionicons name="camera-outline" size={24} color={theme.subtext} />
-                                    <Text style={styles.imagePlaceholderText}>Tap to add a photo</Text>
-                                </View>
+                        <View style={styles.imagePickerContainer}>
+                            <Pressable style={styles.imagePicker} onPress={pickImage}>
+                                {image ? (
+                                    <Image source={{ uri: image }} style={styles.previewImage} contentFit="cover" />
+                                ) : (
+                                    <View style={styles.imagePlaceholder}>
+                                        <Ionicons name="camera-outline" size={24} color={theme.subtext} />
+                                        <Text style={styles.imagePlaceholderText}>Tap to add a photo</Text>
+                                    </View>
+                                )}
+                            </Pressable>
+                            {image && (
+                                <Pressable 
+                                    style={styles.removeImageButton} 
+                                    onPress={() => setImage(null)}
+                                >
+                                    <View style={styles.removeImageBackground}>
+                                        <Ionicons name="close" size={20} color="#fff" />
+                                    </View>
+                                </Pressable>
                             )}
-                        </Pressable>
+                        </View>
 
                         <Pressable
                             style={[
@@ -325,14 +336,32 @@ function createStyles(theme: Theme) {
             height: 80,
             textAlignVertical: 'top',
         },
-        imagePicker: {
+        imagePickerContainer: {
+            position: 'relative',
             height: 200,
+        },
+        imagePicker: {
+            flex: 1,
             backgroundColor: theme.card,
             borderRadius: 16,
             borderWidth: 1,
             borderColor: theme.border,
             borderStyle: 'dashed',
             overflow: 'hidden',
+        },
+        removeImageButton: {
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            zIndex: 10,
+        },
+        removeImageBackground: {
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            width: 28,
+            height: 28,
+            borderRadius: 14,
+            justifyContent: 'center',
+            alignItems: 'center',
         },
         previewImage: {
             width: '100%',

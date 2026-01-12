@@ -167,20 +167,20 @@ export default function Account() {
       const friendly =
         err instanceof Error ? err.message : "Something went wrong.";
       const context = mode === "login" ? "Sign in" : "Sign up";
+
       if (code === "auth/invalid-email" || code === "auth/missing-email") {
         setEmailError("Check your email address.");
-      }
-      if (
+      } else if (
         code === "auth/wrong-password" ||
         code === "auth/invalid-credential" ||
         code === "auth/missing-password"
       ) {
         setPasswordError("Check your password.");
-      }
-      if (code === "auth/weak-password") {
+      } else if (code === "auth/weak-password") {
         setPasswordError("Password is too weak (min 6 characters).");
+      } else {
+        setMessage(`${context} failed${code ? ` (${code})` : ""}: ${friendly}`);
       }
-      setMessage(`${context} failed${code ? ` (${code})` : ""}: ${friendly}`);
     } finally {
       setLoading(false);
     }
@@ -360,11 +360,14 @@ function createStyles(theme: Theme) {
       flex: 1,
       backgroundColor: theme.background,
       justifyContent: "center",
+      alignItems: "center",
       paddingHorizontal: 16,
     },
     header: {
       marginBottom: 16,
       gap: 4,
+      width: "100%",
+      maxWidth: 400,
     },
     headerTitle: {
       color: theme.text,
@@ -377,6 +380,8 @@ function createStyles(theme: Theme) {
     },
     card: {
       backgroundColor: theme.card,
+      width: "100%",
+      maxWidth: 400,
       borderRadius: 16,
       padding: 20,
       gap: 16,

@@ -14,7 +14,7 @@ export default function Index() {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [searchQuery, setSearchQuery] = useState('');
-  const headerHeight = Platform.OS === 'ios' ? 70 : 85;
+  const headerHeight = Platform.OS === 'ios' ? 60 : 75;
 
   const accordionItems = useMemo(() => {
     const isSearching = searchQuery.trim().length > 0;
@@ -82,11 +82,13 @@ export default function Index() {
       </ScrollView>
 
       <View style={[styles.headerContainer, { top: 0, left: 0, right: 0, height: insets.top + headerHeight }]}>
-        <LinearGradient
-          colors={[theme.background, theme.background, theme.background + '00']}
-          locations={[0, 0.85, 1]}
-          style={StyleSheet.absoluteFill}
-        />
+        <View style={StyleSheet.absoluteFill}>
+          <LinearGradient
+            colors={[theme.background, theme.background, theme.background + '00']}
+            locations={[0, 0.92, 1]}
+            style={[StyleSheet.absoluteFill, { right: 8 }]}
+          />
+        </View>
         <SafeAreaView edges={['top']}>
           <View style={styles.header}>
             <View style={[styles.searchBar, { backgroundColor: theme.card, borderColor: theme.border }]}>
@@ -121,7 +123,7 @@ function createStyles(theme: Theme) {
     },
     header: {
       paddingHorizontal: 16,
-      paddingVertical: 12,
+      paddingVertical: 8,
     },
     title: {
       fontSize: 16,
@@ -131,7 +133,7 @@ function createStyles(theme: Theme) {
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: 12,
-      paddingVertical: 10,
+      paddingVertical: 8,
       borderRadius: 12,
       borderWidth: 1,
       gap: 8,
