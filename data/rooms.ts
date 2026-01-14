@@ -2427,7 +2427,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'coar',
         name: 'Coast Range Building',
-        images: [require('../assets/images/buildings/coar.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'coar-2123',
@@ -3060,7 +3060,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'emac',
         name: 'Entomology Machine Storage',
-        images: [require('../assets/images/buildings/emac.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'emac-130',
@@ -3472,7 +3472,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'gvgc',
         name: 'Gladys Valley Gymnastics Center',
-        images: [require('../assets/images/buildings/gvgc.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'gvgc-106',
@@ -3526,7 +3526,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'haml',
         name: 'Hogg Animal Metabolism Lab',
-        images: [require('../assets/images/buildings/haml.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'haml-0100',
@@ -5176,7 +5176,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'oao',
         name: 'Oceanography Administration Building',
-        images: [require('../assets/images/buildings/oao.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'oao-106',
@@ -5347,7 +5347,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'pole',
         name: 'Pole Building',
-        images: [require('../assets/images/buildings/pole.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'pole-Vet-Horse-Barn',
@@ -6079,7 +6079,7 @@ export const BUILDINGS_DATA: Building[] = [
     {
         id: 'spav',
         name: 'Stock Judging Pavilion',
-        images: [require('../assets/images/buildings/spav.jpeg')],
+        images: [require('../assets/images/placeholder.png')],
         rooms: [
             {
                 id: 'spav-101',

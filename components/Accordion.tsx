@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { Image, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View } from 'react-native';
 import { useTheme } from '../theme';
@@ -53,6 +54,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
             source={typeof image === 'string' ? { uri: image } : image}
             style={styles.image}
             resizeMode="cover"
+          />
+          <LinearGradient
+            colors={[theme.card, 'transparent']}
+            style={styles.gradientOverlay}
+            pointerEvents="none"
           />
         </View>
       )}
@@ -128,12 +134,19 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     borderTopWidth: 1,
-    height: 150,
-    overflow: 'hidden',
+    width: '100%',
+    position: 'relative',
   },
   image: {
     width: '100%',
-    height: '100%',
+    height: 300,
+  },
+  gradientOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 80,
   },
   content: {
     borderTopWidth: 1,

@@ -53,18 +53,23 @@ export default function Index() {
 
     filtered.sort((a, b) => a.name.localeCompare(b.name));
 
-    return filtered.map(building => ({
-      id: building.id,
-      title: (
-        <View>
-          <Text style={[styles.title, { color: theme.text }]}>{building.name}</Text>
-          <BuildingRating roomIds={building.rooms.map(r => r.id)} />
-        </View>
-      ),
-      content: <RoomList rooms={building.rooms} />,
-      image: building.images?.[0],
-      showImage: showBuildingImages,
-    }));
+    return filtered.map(building => {
+      const buildingImage = building.images?.[0];
+      const hasValidImage = buildingImage && buildingImage !== PlaceholderImage;
+      
+      return {
+        id: building.id,
+        title: (
+          <View>
+            <Text style={[styles.title, { color: theme.text }]}>{building.name}</Text>
+            <BuildingRating roomIds={building.rooms.map(r => r.id)} />
+          </View>
+        ),
+        content: <RoomList rooms={building.rooms} />,
+        image: buildingImage,
+        showImage: showBuildingImages && hasValidImage,
+      };
+    });
   }, [searchQuery, styles.title, theme.text, showPlaceholders, showBuildingImages]);
 
 
