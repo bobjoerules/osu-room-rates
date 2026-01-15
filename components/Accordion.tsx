@@ -49,7 +49,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
         />
       </TouchableOpacity>
       {!isExpanded && image && showImage && (
-        <View style={[styles.imageContainer, { borderTopColor: theme.border }]}>
+        <TouchableOpacity
+          style={[styles.imageContainer, { borderTopColor: theme.border }]}
+          onPress={handlePress}
+          activeOpacity={0.7}
+        >
           <Image
             source={typeof image === 'string' ? { uri: image } : image}
             style={styles.image}
@@ -60,7 +64,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
             style={styles.gradientOverlay}
             pointerEvents="none"
           />
-        </View>
+        </TouchableOpacity>
       )}
       {isExpanded && (
         <View style={[styles.content, { borderTopColor: theme.border }]}>
@@ -133,7 +137,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   imageContainer: {
-    borderTopWidth: 1,
     width: '100%',
     position: 'relative',
   },
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 80,
+    height: 100,
   },
   content: {
     borderTopWidth: 1,
