@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { Image, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View } from 'react-native';
+import { Image, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View, useWindowDimensions } from 'react-native';
 import { useTheme } from '../theme';
 import { useHapticFeedback } from '../lib/SettingsContext';
 
@@ -16,9 +16,10 @@ interface AccordionItemProps {
   onPress: () => void;
   image?: string | number;
   showImage?: boolean;
+  containerStyle?: any;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpanded, onPress, image, showImage }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpanded, onPress, image, showImage, containerStyle }) => {
   const theme = useTheme();
   const triggerHaptic = useHapticFeedback();
 
@@ -29,7 +30,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
   };
 
   return (
-    <View style={[styles.itemContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
+    <View style={[containerStyle, { backgroundColor: theme.card, borderColor: theme.border }]}>
       <TouchableOpacity
         style={styles.header}
         onPress={handlePress}
@@ -76,37 +77,64 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
 };
 
 interface AccordionProps {
-  items: Array<{
+  items: {
     id: string;
     title: React.ReactNode;
     content: React.ReactNode;
     image?: string | number;
     showImage?: boolean;
-  }>;
+  }[];
   forceExpandAll?: boolean;
 }
 
 export default function Accordion({ items, forceExpandAll = false }: AccordionProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const { width } = useWindowDimensions();
+  const isDesktopWeb = Platform.OS === 'web' && width >= 768;
 
   const toggleItem = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const itemContainerStyle = [
+    styles.itemContainer,
+    { 
+      marginVertical: isDesktopWeb ? 0 : 8,
+    },
+  ];
+
   return (
     <View style={Platform.OS === 'web' ? styles.webGridContainer : undefined}>
-      <View style={Platform.OS === 'web' ? styles.gridWrapper : undefined}>
+      {Platform.OS === 'web' && (
+        <style>
+          {`
+            @media (min-width: 768px) {
+              [data-grid-wrapper] {
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                gap: 16px !important;
+              }
+              [data-grid-item] {
+                width: calc(33.333% - 10.67px) !important;
+                box-sizing: border-box !important;
+              }
+            }
+          `}
+        </style>
+      )}
+      <View style={isDesktopWeb ? styles.gridWrapper : undefined} data-grid-wrapper={isDesktopWeb ? 'true' : undefined}>
         {items.map((item) => {
           const isExpanded = forceExpandAll || expandedId === item.id;
 
           return (
-            <View key={item.id} style={Platform.OS === 'web' ? styles.gridItem : undefined}>
+            <View key={item.id} style={isDesktopWeb ? styles.gridItem : undefined} data-grid-item={isDesktopWeb ? 'true' : undefined}>
               <AccordionItem
                 title={item.title}
                 isExpanded={isExpanded}
                 onPress={() => toggleItem(item.id)}
                 image={item.image}
                 showImage={item.showImage}
+                containerStyle={itemContainerStyle}
               >
                 {item.content}
               </AccordionItem>
@@ -126,13 +154,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 16,
+    width: '100%',
   },
   gridItem: {
-    width: 'calc(33.333% - 11px)',
+    flex: 1,
+    minWidth: '30%',
     marginBottom: 8,
   },
   itemContainer: {
-    marginVertical: 8,
     borderRadius: 12,
     borderWidth: 1,
     overflow: 'hidden',

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo, useState } from 'react';
-import { Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Accordion from '../../components/Accordion';
 import BuildingRating from '../../components/BuildingRating';
@@ -14,6 +14,8 @@ const PlaceholderImage = require('../../assets/images/placeholder.png');
 export default function Index() {
   const theme = useTheme();
   const { showPlaceholders, showBuildingImages } = useSettings();
+  const { width } = useWindowDimensions();
+  const isDesktopWeb = Platform.OS === 'web' && width >= 768;
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [searchQuery, setSearchQuery] = useState('');
   const headerHeight = Platform.OS === 'ios' ? 60 : 75;
@@ -112,13 +114,13 @@ export default function Index() {
 
       <View style={[styles.headerContainer, { top: Platform.OS === 'web' ? 75 : 0, left: 0, right: 0, height: insets.top + headerHeight }]}>
         {Platform.OS === 'web' && (
-          <View style={{ position: 'absolute', top: -75, left: 0, right: Platform.OS === 'web' ? 20 : 0, height: 75, backgroundColor: theme.background }} />
+          <View style={{ position: 'absolute', top: -75, left: 0, right: isDesktopWeb ? 20 : 0, height: 75, backgroundColor: theme.background }} />
         )}
         <View style={StyleSheet.absoluteFill}>
           <LinearGradient
             colors={[theme.background, theme.background, theme.background + '00']}
             locations={Platform.OS === 'web' ? [0, 0.5, 1] : [0, 0.92, 1]}
-            style={[StyleSheet.absoluteFill, { right: Platform.OS === 'web' ? 20 : 8 }]}
+            style={[StyleSheet.absoluteFill, { right: isDesktopWeb ? 20 : 8 }]}
             pointerEvents="none"
           />
         </View>
