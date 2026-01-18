@@ -167,11 +167,15 @@ function AuthenticatedStack() {
               overflow: hidden;
               height: 100%;
               width: 100%;
+              background-color: ${theme.background};
+              margin: 0;
+              padding: 0;
             }
             #root {
               display: flex;
               flex-direction: column;
               height: 100%;
+              background-color: ${theme.background};
             }
             /* Target the main scroll view or content container */
             [data-testid="scroll-view"], .css-view-175oi2r[style*="overflow-y: auto"] {
