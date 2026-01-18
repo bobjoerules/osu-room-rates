@@ -148,6 +148,7 @@ export default function SubmitScreen() {
                 <ScrollView
                     contentContainerStyle={styles.scrollContent}
                     showsVerticalScrollIndicator={false}
+                    scrollEnabled={isDesktop}
                 >
                     <View style={styles.header}>
                         {(initialBuilding || initialRoomNumber) ? (
@@ -307,7 +308,7 @@ function createStyles(theme: Theme, isDesktop: boolean = false) {
             backgroundColor: theme.background,
         },
         scrollContent: {
-            flexGrow: 1,
+            ...(isDesktop ? { flexGrow: 1 } : {}),
             paddingHorizontal: 20,
             paddingBottom: 20,
             ...(Platform.OS === 'web' && { paddingTop: 75 }),

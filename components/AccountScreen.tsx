@@ -285,9 +285,10 @@ export default function Account() {
                   <Text style={styles.label}>Email</Text>
                   <Text style={styles.value}>{userEmail}</Text>
                   {auth.currentUser && !auth.currentUser.emailVerified && (
-                    <View style={{ marginTop: 4 }}>
-                      <Text style={[styles.errorText, { marginBottom: 2 }]}>Email not verified</Text>
+                    <View style={{ marginTop: 8 }}>
+                      <Text style={[styles.errorText, { marginBottom: 8 }]}>Email not verified</Text>
                       <Pressable
+                        style={[styles.buttonSecondary, { borderColor: theme.primary, backgroundColor: theme.primary + '15' }]}
                         onPress={async () => {
                           try {
                             if (auth.currentUser) {
@@ -299,7 +300,7 @@ export default function Account() {
                           }
                         }}
                       >
-                        <Text style={[styles.linkText, { fontSize: 13 }]}>Resend Verification Email</Text>
+                        <Text style={[styles.buttonText, { color: theme.primary }]}>Resend Verification Email</Text>
                       </Pressable>
                     </View>
                   )}

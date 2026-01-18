@@ -152,8 +152,6 @@ export default function Index() {
       {Platform.OS === 'web' && (
         <style>
           {`
-
-            /* Style scrollbar on web */
             /* Style scrollbar on web */
             ::-webkit-scrollbar {
               width: 12px;
@@ -229,10 +227,10 @@ export default function Index() {
         style={[
           styles.headerContainer,
           {
-            top: Platform.OS === 'web' ? 75 : 0,
+            top: 0,
             left: 0,
             right: 0,
-            height: insets.top + headerHeight + (Platform.OS === 'web' ? 16 : 0),
+            height: Platform.OS === 'web' ? insets.top + headerHeight + 75 + 16 : insets.top + headerHeight,
             backgroundColor: theme.background, // Fallback for mobile web
             paddingTop: Platform.OS === 'web' ? 16 : 0,
           }
@@ -240,7 +238,7 @@ export default function Index() {
         {...(Platform.OS === 'web' ? { dataSet: { 'glass-header': 'true' } } : {})}
       >
         {Platform.OS === 'web' && (
-          <View style={{ position: 'absolute', top: -75, left: 0, right: 0, height: 75, backgroundColor: theme.background }} />
+          <View style={{ height: 75 }} />
         )}
         <SafeAreaView edges={['top']}>
           <View style={[styles.header, isDesktopWeb && { width: '100%', maxWidth: 1200, alignSelf: 'center' }]}>
