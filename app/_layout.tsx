@@ -1,4 +1,3 @@
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter } from 'expo-router';
@@ -20,8 +19,8 @@ export default function RootLayout() {
   const router = useRouter();
 
   const [loaded, error] = useFonts({
-    ...Ionicons.font,
-    ...FontAwesome.font,
+    'Ionicons': require('../assets/fonts/Ionicons.ttf'),
+    'FontAwesome': require('../assets/fonts/FontAwesome.ttf'),
   });
 
   useEffect(() => {
