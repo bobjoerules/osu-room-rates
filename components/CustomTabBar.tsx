@@ -1,9 +1,9 @@
-import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
-import { useRouter, usePathname } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { usePathname, useRouter } from 'expo-router';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '../theme';
 import { useHapticFeedback } from '../lib/SettingsContext';
+import { useTheme } from '../theme';
 
 export default function CustomTabBar() {
   const router = useRouter();
@@ -17,52 +17,52 @@ export default function CustomTabBar() {
   const isSubmit = pathname === '/submit';
 
   return (
-    <View style={[styles.container, { 
+    <View style={[styles.container, {
       paddingBottom: insets.bottom,
       backgroundColor: Platform.OS === 'ios' ? 'rgba(255,255,255,0.8)' : theme.background,
       borderTopColor: theme.border,
     }]}>
-      <TouchableOpacity 
-        style={styles.tab} 
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           triggerHaptic();
           router.push('/submit');
         }}
       >
-        <Ionicons 
-          name={isSubmit ? 'plus-circle' : 'plus-circle-outline'} 
-          size={24} 
-          color={isSubmit ? '#D73F09' : theme.subtext} 
+        <Ionicons
+          name={isSubmit ? 'plus-circle' : 'plus-circle-outline'}
+          size={24}
+          color={isSubmit ? '#D73F09' : theme.subtext}
         />
         <Text style={[styles.label, { color: isSubmit ? '#D73F09' : theme.subtext }]}>Add Room</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={styles.tab} 
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           triggerHaptic();
           router.push('/');
         }}
       >
-        <Ionicons 
-          name={isHome ? 'grid' : 'grid-outline'} 
-          size={24} 
-          color={isHome ? '#D73F09' : theme.subtext} 
+        <Ionicons
+          name={isHome ? 'grid' : 'grid-outline'}
+          size={24}
+          color={isHome ? '#D73F09' : theme.subtext}
         />
         <Text style={[styles.label, { color: isHome ? '#D73F09' : theme.subtext }]}>Rooms</Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity 
-        style={styles.tab} 
+
+      <TouchableOpacity
+        style={styles.tab}
         onPress={() => {
           triggerHaptic();
           router.push('/account');
         }}
       >
-        <Ionicons 
-          name={isAccount ? 'person' : 'person-outline'} 
-          size={24} 
-          color={isAccount ? '#D73F09' : theme.subtext} 
+        <Ionicons
+          name={isAccount ? 'person' : 'person-outline'}
+          size={24}
+          color={isAccount ? '#D73F09' : theme.subtext}
         />
         <Text style={[styles.label, { color: isAccount ? '#D73F09' : theme.subtext }]}>Account</Text>
       </TouchableOpacity>

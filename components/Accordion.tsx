@@ -44,7 +44,10 @@ export const AccordionItem = React.memo<AccordionItemProps>(({ title, children, 
   };
 
   return (
-    <View style={[containerStyle, { backgroundColor: theme.card, borderColor: theme.border }]}>
+    <View
+      style={[containerStyle, { backgroundColor: theme.card, borderColor: theme.border }]}
+      {...(Platform.OS === 'web' ? { dataSet: { 'grid-item': 'true' } } : {})}
+    >
       <TouchableOpacity
         style={styles.header}
         onPress={handlePress}

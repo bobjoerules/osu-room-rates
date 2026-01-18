@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as SystemUI from 'expo-system-ui';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, StyleSheet, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, useColorScheme, View } from 'react-native';
 import AccountScreen from '../components/AccountScreen';
 import { auth } from '../firebaseConfig';
 import { SettingsProvider } from '../lib/SettingsContext';
@@ -96,6 +96,28 @@ function AuthenticatedStack() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
+      {Platform.OS === 'web' && (
+        <style>
+          {`
+            :root {
+              --expo-router-tabs-background-color: ${theme.card} !important;
+            }
+            .EFtDwW_navigationMenuRoot {
+              background-color: ${theme.card} !important;
+              border-bottom: 1px solid ${theme.border}44 !important;
+            }
+            .EFtDwW_navigationMenuTrigger[data-state='active'] {
+              background-color: ${theme.primary} !important;
+            }
+            .EFtDwW_navigationMenuTrigger[data-state='active'] span {
+              color: #ffffff !important;
+            }
+            .EFtDwW_navigationMenuTrigger[data-state='active'] svg {
+              color: #ffffff !important;
+            }
+          `}
+        </style>
+      )}
       <NavThemeProvider value={navTheme}>
         <Stack
           screenOptions={{

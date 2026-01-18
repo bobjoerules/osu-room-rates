@@ -30,18 +30,19 @@ export default function RoomList({ rooms }: RoomListProps) {
     const roomName = item.id.split('-').pop() || '???';
     return (
       <TouchableOpacity
-        style={[styles.roomCard, isDesktopWeb && styles.roomCardGrid]}
+        style={[styles.roomCard, isDesktopWeb && styles.roomCardGrid, { backgroundColor: theme.card, borderColor: theme.border }]}
         onPress={() => handleRoomPress(item.id)}
         activeOpacity={0.7}
+        {...(isDesktopWeb ? { dataSet: { 'grid-item': 'true' } } : {})}
       >
         <View style={isDesktopWeb ? styles.roomImageGridContainer : undefined}>
           {item.images && item.images.length > 0 && (
             <Image source={item.images[0]} style={isDesktopWeb ? styles.roomImageGrid : styles.roomImage} />
           )}
         </View>
-        <View style={styles.roomContent}>
-          <Text style={[styles.roomName, { color: theme.text }]}>Room {roomName}</Text>
-          <RatingDisplay itemId={item.id} size={16} align="flex-start" />
+        <View style={[styles.roomContent, isDesktopWeb && styles.roomContentGrid]}>
+          <Text style={[styles.roomName, { color: theme.text }]} numberOfLines={1}>Room {roomName}</Text>
+          <RatingDisplay itemId={item.id} size={16} align={isDesktopWeb ? 'center' : 'flex-start'} />
         </View>
         {!isDesktopWeb && <Ionicons name="chevron-forward" size={20} color={theme.subtext} />}
       </TouchableOpacity>
@@ -90,21 +91,25 @@ const styles = StyleSheet.create({
     marginHorizontal: '1%',
     marginVertical: 12,
     padding: 0,
-    backgroundColor: 'transparent',
+    borderRadius: 16,
+    borderWidth: 1,
     overflow: 'hidden',
   },
   roomImageGridContainer: {
     width: '100%',
     aspectRatio: 16 / 9,
-    borderRadius: 12,
     overflow: 'hidden',
-    marginBottom: 12,
   },
   roomImageGrid: {
     width: '100%',
     height: '100%',
   },
+  roomContentGrid: {
+    padding: 16,
+    alignItems: 'center',
+  },
   columnWrapper: {
     justifyContent: 'flex-start',
+    paddingHorizontal: 0,
   }
 });

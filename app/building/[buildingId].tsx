@@ -50,9 +50,37 @@ export default function BuildingDetail() {
 
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
-            <View style={[styles.headerFloatingContainer, { top: 0, left: 0, right: 0, height: insets.top + 75 }]}>
+            {Platform.OS === 'web' && (
+                <style>
+                    {`
+                        @media (min-width: 768px) {
+                            [data-grid-item] {
+                                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+                                border: 1px solid ${theme.border} !important;
+                                background-color: ${theme.card} !important;
+                            }
+                            [data-grid-item]:hover {
+                                transform: translateY(-6px) scale(1.01) !important;
+                                box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 10px 10px rgba(0,0,0,0.06) !important;
+                                border-color: ${theme.primary}44 !important;
+                                z-index: 5;
+                            }
+                            [data-glass-header] {
+                                backdrop-filter: blur(12px) !important;
+                                -webkit-backdrop-filter: blur(12px) !important;
+                                background-color: ${theme.background}cc !important;
+                                border-bottom: 1px solid ${theme.border}44 !important;
+                            }
+                        }
+                    `}
+                </style>
+            )}
+            <View
+                style={[styles.headerFloatingContainer, { top: 0, left: 0, right: 0, height: insets.top + (isDesktopWeb ? 85 : 75) }]}
+                {...(isDesktopWeb ? { dataSet: { 'glass-header': 'true' } } : {})}
+            >
                 <SafeAreaView edges={['top']}>
-                    <View style={styles.header}>
+                    <View style={[styles.header, isDesktopWeb && { maxWidth: 1200, alignSelf: 'center', width: '100%' }]}>
                         <TouchableOpacity
                             onPress={() => { triggerHaptic(); router.back(); }}
                             style={styles.backButton}
@@ -74,7 +102,8 @@ export default function BuildingDetail() {
                 style={{ flex: 1 }}
                 contentContainerStyle={[
                     styles.scrollContent,
-                    { paddingTop: insets.top + 80 }
+                    { paddingTop: insets.top + (isDesktopWeb ? 100 : 80) },
+                    isDesktopWeb && { maxWidth: 1200, alignSelf: 'center', width: '100%' }
                 ]}
             >
                 <View style={[isDesktopWeb ? styles.gridWrapper : undefined]}>
@@ -122,9 +151,5 @@ function createStyles(theme: Theme) {
             paddingHorizontal: 16,
             paddingBottom: 40,
         },
-        gridWrapper: {
-            // RoomList internal implementation handles the list, 
-            // but we might need to adjust RoomList itself to support grid layout
-        }
     });
 }

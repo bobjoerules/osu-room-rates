@@ -1,25 +1,24 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, writeBatch } from 'firebase/firestore';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import RatingDisplay from '../../components/RatingDisplay';
 import { getRoomById } from '../../data/rooms';
 import { auth, db } from '../../firebaseConfig';
-import { Theme, useTheme } from '../../theme';
 import { useHapticFeedback } from '../../lib/SettingsContext';
+import { Theme, useTheme } from '../../theme';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const STORAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/osu-room-rates.firebasestorage.app/o';
 
 const firebaseImage = (path: string): string => {
-    const encodedPath = encodeURIComponent(path);
-    return `${STORAGE_URL}/${encodedPath}?alt=media`;
+  const encodedPath = encodeURIComponent(path);
+  return `${STORAGE_URL}/${encodedPath}?alt=media`;
 };
 
 export default function RoomDetail() {
@@ -28,6 +27,8 @@ export default function RoomDetail() {
   const theme = useTheme();
   const triggerHaptic = useHapticFeedback();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const { width: windowWidth } = useWindowDimensions();
+  const isDesktopWeb = Platform.OS === 'web' && windowWidth >= 768;
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
@@ -119,9 +120,31 @@ export default function RoomDetail() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {Platform.OS === 'web' && (
+        <style>
+          {`
+            @media (min-width: 768px) {
+              .room-detail-content {
+                max-width: 1200px !important;
+                margin: 0 auto !important;
+                width: 100% !important;
+              }
+              [data-glass-header] {
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
+                background-color: ${theme.background}cc !important;
+                border-bottom: 1px solid ${theme.border}44 !important;
+              }
+            }
+          `}
+        </style>
+      )}
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{ paddingTop: insets.top + 50 }}
+        contentContainerStyle={[
+          { paddingTop: insets.top + (isDesktopWeb ? 100 : 50) },
+          isDesktopWeb && { maxWidth: 1200, alignSelf: 'center', width: '100%' }
+        ]}
       >
         <View style={styles.imageContainer}>
           {roomData.images.length > 1 ? (
@@ -132,12 +155,12 @@ export default function RoomDetail() {
                 showsHorizontalScrollIndicator={false}
                 onScroll={onScroll}
                 scrollEventThrottle={16}
-                snapToInterval={SNAP_INTERVAL}
+                snapToInterval={isDesktopWeb ? 1212 : SNAP_INTERVAL}
                 snapToAlignment="center"
                 decelerationRate="normal"
                 disableIntervalMomentum
                 pagingEnabled
-                contentContainerStyle={{ paddingHorizontal: SIDE_PADDING }}
+                contentContainerStyle={{ paddingHorizontal: isDesktopWeb ? 0 : SIDE_PADDING }}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={({ item, index }) => (
                   <Image
@@ -146,15 +169,16 @@ export default function RoomDetail() {
                     style={[
                       styles.headerImage,
                       {
-                        width: IMAGE_WIDTH,
-                        marginRight: index === roomData.images.length - 1 ? 0 : GAP,
+                        width: isDesktopWeb ? 1200 : IMAGE_WIDTH,
+                        marginRight: index === roomData.images.length - 1 ? 0 : (isDesktopWeb ? 0 : GAP),
+                        borderRadius: isDesktopWeb ? 24 : 16,
                       }
                     ]}
                     transition={500}
                   />
                 )}
               />
-              <View style={styles.paginationDots}>
+              <View style={[styles.paginationDots, isDesktopWeb && { bottom: 20 }]}>
                 {roomData.images.map((_, index) => (
                   <View
                     key={index}
@@ -170,7 +194,14 @@ export default function RoomDetail() {
             <Image
               source={roomData.images[0]}
               contentFit="cover"
-              style={[styles.headerImage, { width: SCREEN_WIDTH - 32, marginHorizontal: 16 }]}
+              style={[
+                styles.headerImage,
+                {
+                  width: isDesktopWeb ? 1200 : SCREEN_WIDTH - 32,
+                  marginHorizontal: isDesktopWeb ? 0 : 16,
+                  borderRadius: isDesktopWeb ? 24 : 16,
+                }
+              ]}
               transition={500}
             />
           )}
@@ -245,14 +276,12 @@ export default function RoomDetail() {
         </View>
       </ScrollView>
 
-      <View style={[styles.headerFloatingContainer, { top: 0, left: 0, right: 0, height: insets.top + 75 }]}>
-        <LinearGradient
-          colors={[theme.background, theme.background, theme.background + 'CC', theme.background + '00']}
-          locations={[0, 0.55, 0.8, 1]}
-          style={StyleSheet.absoluteFill}
-        />
+      <View
+        style={[styles.headerFloatingContainer, { top: 0, left: 0, right: 0, height: insets.top + (isDesktopWeb ? 85 : 75) }]}
+        {...(isDesktopWeb ? { dataSet: { 'glass-header': 'true' } } : {})}
+      >
         <SafeAreaView edges={['top']}>
-          <View style={styles.header}>
+          <View style={[styles.header, isDesktopWeb && { maxWidth: 1200, alignSelf: 'center', width: '100%' }]}>
             <TouchableOpacity
               onPress={() => { triggerHaptic(); router.back(); }}
               style={styles.backButton}
@@ -300,7 +329,7 @@ function createStyles(theme: Theme) {
       position: 'relative',
     },
     headerImage: {
-      height: 240,
+      height: Platform.OS === 'web' ? 500 : 240,
       borderRadius: 16,
     },
     paginationDots: {
