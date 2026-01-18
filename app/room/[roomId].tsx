@@ -35,7 +35,6 @@ export default function RoomDetail() {
   const flatListRef = useRef<FlatList>(null);
   const [mouseDown, setMouseDown] = useState(false);
   const [mouseStartX, setMouseStartX] = useState(0);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const finalRoomId = Array.isArray(roomId) ? roomId[0] : roomId;
 
@@ -140,32 +139,41 @@ export default function RoomDetail() {
   const DESKTOP_IMAGE_WIDTH = isDesktopWeb ? Math.min(1168, windowWidth - 80) : IMAGE_WIDTH;
 
   const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const scrollOffset = event.nativeEvent.contentOffset.x;
+    
     if (isDesktopWeb) {
-      const scrollOffset = event.nativeEvent.contentOffset.x;
       const index = Math.round(scrollOffset / (DESKTOP_IMAGE_WIDTH + GAP));
       if (index >= 0 && index < roomData.images.length) {
         setActiveImageIndex(index);
       }
-      
-      // Debounce scroll end detection for web trackpad
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        const itemSize = DESKTOP_IMAGE_WIDTH + GAP;
-        const nearestIndex = Math.round(scrollOffset / itemSize);
-        if (nearestIndex >= 0 && nearestIndex < roomData.images.length) {
-          flatListRef.current?.scrollToIndex({ index: nearestIndex, animated: true });
-        }
-      }, 150);
     } else {
-      const scrollOffset = event.nativeEvent.contentOffset.x;
       const index = Math.round((scrollOffset + SIDE_PADDING) / SNAP_INTERVAL);
       if (index >= 0 && index < roomData.images.length) {
         setActiveImageIndex(index);
       }
     }
   }, [isDesktopWeb, DESKTOP_IMAGE_WIDTH, GAP, SIDE_PADDING, SNAP_INTERVAL, roomData.images.length]);
+
+  const onMomentumScrollEnd = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const scrollOffset = event.nativeEvent.contentOffset.x;
+    let nearestIndex: number;
+
+    if (isDesktopWeb) {
+      const itemSize = DESKTOP_IMAGE_WIDTH + GAP;
+      nearestIndex = Math.round(scrollOffset / itemSize);
+      if (nearestIndex >= 0 && nearestIndex < roomData.images.length) {
+        flatListRef.current?.scrollToIndex({ index: nearestIndex, animated: true });
+        setActiveImageIndex(nearestIndex);
+      }
+    } else {
+      // On native mobile, rely on snapToInterval + center alignment without correction
+      const itemSize = IMAGE_WIDTH + GAP;
+      nearestIndex = Math.round((scrollOffset + SIDE_PADDING) / itemSize);
+      if (nearestIndex >= 0 && nearestIndex < roomData.images.length) {
+        setActiveImageIndex(nearestIndex);
+      }
+    }
+  }, [isDesktopWeb, DESKTOP_IMAGE_WIDTH, GAP, SIDE_PADDING, IMAGE_WIDTH, roomData.images.length]);
 
   const insets = useSafeAreaInsets();
 
@@ -283,10 +291,11 @@ export default function RoomDetail() {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 onScroll={onScroll}
+                onMomentumScrollEnd={onMomentumScrollEnd}
                 scrollEventThrottle={16}
                 snapToInterval={isDesktopWeb ? DESKTOP_IMAGE_WIDTH + GAP : SNAP_INTERVAL}
                 snapToAlignment="center"
-                decelerationRate="normal"
+                decelerationRate={isDesktopWeb ? 0.95 : 'fast'}
                 disableIntervalMomentum
                 pagingEnabled={false}
                 contentContainerStyle={{ paddingHorizontal: isDesktopWeb ? 0 : SIDE_PADDING }}
@@ -311,7 +320,7 @@ export default function RoomDetail() {
                       styles.headerImage,
                       {
                         width: isDesktopWeb ? DESKTOP_IMAGE_WIDTH : IMAGE_WIDTH,
-                        marginRight: index === roomData.images.length - 1 ? 0 : GAP,
+                        marginRight: GAP,
                         borderRadius: isDesktopWeb ? 24 : 16,
                       }
                     ]}
