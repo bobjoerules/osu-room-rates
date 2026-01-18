@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, writeBatch } from 'firebase/firestore';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { ActivityIndicator, Alert, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import RatingDisplay from '../../components/RatingDisplay';
@@ -32,6 +32,10 @@ export default function RoomDetail() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+  const flatListRef = useRef<FlatList>(null);
+  const [mouseDown, setMouseDown] = useState(false);
+  const [mouseStartX, setMouseStartX] = useState(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const finalRoomId = Array.isArray(roomId) ? roomId[0] : roomId;
 
@@ -102,21 +106,114 @@ export default function RoomDetail() {
     roomType: 'Unknown',
   };
 
+  const handleMouseDrag = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!mouseDown) return;
+
+    const currentX = (e as any).clientX;
+    const diff = mouseStartX - currentX;
+    const threshold = 50;
+
+    if (Math.abs(diff) > threshold) {
+      const newIndex = diff > 0 
+        ? Math.min(roomData.images.length - 1, activeImageIndex + 1)
+        : Math.max(0, activeImageIndex - 1);
+      
+      if (newIndex !== activeImageIndex) {
+        setActiveImageIndex(newIndex);
+        flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
+      }
+      setMouseDown(false);
+    }
+  }, [mouseDown, mouseStartX, activeImageIndex, roomData.images.length]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (mouseDown) {
+      handleMouseDrag(e);
+    }
+  }, [mouseDown, handleMouseDrag]);
+
   const IMAGE_WIDTH = SCREEN_WIDTH * 0.88;
   const GAP = 12;
   const SNAP_INTERVAL = IMAGE_WIDTH + GAP;
   const SIDE_PADDING = (SCREEN_WIDTH - IMAGE_WIDTH) / 2;
+  // For desktop: account for container padding (16px each side) and add buffer
+  const DESKTOP_IMAGE_WIDTH = isDesktopWeb ? Math.min(1168, windowWidth - 80) : IMAGE_WIDTH;
 
-  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const scrollOffset = event.nativeEvent.contentOffset.x;
-    const index = (scrollOffset + SIDE_PADDING) / SNAP_INTERVAL;
-    const roundIndex = Math.round(index);
-    if (roundIndex !== activeImageIndex) {
-      setActiveImageIndex(roundIndex);
+  const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (isDesktopWeb) {
+      const scrollOffset = event.nativeEvent.contentOffset.x;
+      const index = Math.round(scrollOffset / (DESKTOP_IMAGE_WIDTH + GAP));
+      if (index >= 0 && index < roomData.images.length) {
+        setActiveImageIndex(index);
+      }
+      
+      // Debounce scroll end detection for web trackpad
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        const itemSize = DESKTOP_IMAGE_WIDTH + GAP;
+        const nearestIndex = Math.round(scrollOffset / itemSize);
+        if (nearestIndex >= 0 && nearestIndex < roomData.images.length) {
+          flatListRef.current?.scrollToIndex({ index: nearestIndex, animated: true });
+        }
+      }, 150);
+    } else {
+      const scrollOffset = event.nativeEvent.contentOffset.x;
+      const index = Math.round((scrollOffset + SIDE_PADDING) / SNAP_INTERVAL);
+      if (index >= 0 && index < roomData.images.length) {
+        setActiveImageIndex(index);
+      }
     }
-  };
+  }, [isDesktopWeb, DESKTOP_IMAGE_WIDTH, GAP, SIDE_PADDING, SNAP_INTERVAL, roomData.images.length]);
 
   const insets = useSafeAreaInsets();
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const newIndex = Math.max(0, activeImageIndex - 1);
+        if (newIndex !== activeImageIndex) {
+          setActiveImageIndex(newIndex);
+          flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
+        }
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        const newIndex = Math.min(roomData.images.length - 1, activeImageIndex + 1);
+        if (newIndex !== activeImageIndex) {
+          setActiveImageIndex(newIndex);
+          flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeImageIndex, roomData.images.length]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMouseDown(true);
+    setMouseStartX((e as any).clientX);
+  };
+
+  const handleMouseUp = () => {
+    setMouseDown(false);
+  };
+
+  const handleMouseMoveWrapper = (e: React.MouseEvent) => {
+    if (mouseDown) {
+      e.preventDefault();
+    }
+    handleMouseMove(e);
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -141,6 +238,25 @@ export default function RoomDetail() {
                 border-bottom: 1px solid ${theme.border}44 !important;
                 right: 12px !important;
               }
+              [data-carousel-container] {
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                cursor: grab;
+              }
+              [data-carousel-container]:active {
+                cursor: grabbing;
+              }
+              [data-carousel-container] img {
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                pointer-events: none;
+                -webkit-user-drag: none;
+                drag: none;
+              }
             }
           `}
         </style>
@@ -152,22 +268,41 @@ export default function RoomDetail() {
           isDesktopWeb && { maxWidth: 1200, alignSelf: 'center', width: '100%' }
         ]}
       >
-        <View style={[styles.imageContainer, isDesktopWeb && { paddingHorizontal: 16 }]}>
+        <View 
+          style={[styles.imageContainer, isDesktopWeb && { paddingHorizontal: 16 }]}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMoveWrapper}
+          onMouseUp={handleMouseUp}
+          dataSet={{ 'carousel-container': 'true' }}
+        >
           {roomData.images.length > 1 ? (
             <>
               <FlatList
+                ref={flatListRef}
                 data={roomData.images}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 onScroll={onScroll}
                 scrollEventThrottle={16}
-                snapToInterval={isDesktopWeb ? 1212 : SNAP_INTERVAL}
+                snapToInterval={isDesktopWeb ? DESKTOP_IMAGE_WIDTH + GAP : SNAP_INTERVAL}
                 snapToAlignment="center"
                 decelerationRate="normal"
                 disableIntervalMomentum
-                pagingEnabled
+                pagingEnabled={false}
                 contentContainerStyle={{ paddingHorizontal: isDesktopWeb ? 0 : SIDE_PADDING }}
-                keyExtractor={(_, index) => index.toString()}
+                keyExtractor={(_, index) => `image-${finalRoomId}-${index}`}
+                getItemLayout={(data, index) => {
+                  const itemWidth = isDesktopWeb ? DESKTOP_IMAGE_WIDTH : IMAGE_WIDTH;
+                  const itemLength = itemWidth + GAP;
+                  return {
+                    length: itemLength,
+                    offset: itemLength * index,
+                    index,
+                  };
+                }}
+                onScrollToIndexFailed={(error) => {
+                  console.warn('Scroll to index failed:', error);
+                }}
                 renderItem={({ item, index }) => (
                   <Image
                     source={item}
@@ -175,14 +310,16 @@ export default function RoomDetail() {
                     style={[
                       styles.headerImage,
                       {
-                        width: isDesktopWeb ? '100%' : IMAGE_WIDTH,
-                        marginRight: index === roomData.images.length - 1 ? 0 : (isDesktopWeb ? 0 : GAP),
+                        width: isDesktopWeb ? DESKTOP_IMAGE_WIDTH : IMAGE_WIDTH,
+                        marginRight: index === roomData.images.length - 1 ? 0 : GAP,
                         borderRadius: isDesktopWeb ? 24 : 16,
                       }
                     ]}
                     transition={500}
                   />
                 )}
+                scrollEnabled={true}
+                nestedScrollEnabled={true}
               />
               <View style={[styles.paginationDots, isDesktopWeb && { bottom: 20 }]}>
                 {roomData.images.map((_, index) => (
@@ -377,9 +514,13 @@ function createStyles(theme: Theme) {
     },
     imageContainer: {
       position: 'relative',
+      height: Platform.OS === 'web' ? 500 : 240,
+      width: '100%',
+      display: 'flex',
+      overflow: Platform.OS === 'web' ? 'hidden' : 'visible',
     },
     headerImage: {
-      height: Platform.OS === 'web' ? 500 : 240,
+      height: '100%',
       borderRadius: 16,
     },
     paginationDots: {
