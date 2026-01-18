@@ -261,6 +261,11 @@ export default function Account() {
                 </Text>
               </View>
             )}
+            {userEmail && auth.currentUser?.emailVerified && userEmail.toLowerCase().endsWith('@oregonstate.edu') && (
+              <View style={styles.osuBadge}>
+                <Text style={styles.osuBadgeText}>OSU</Text>
+              </View>
+            )}
           </View>
           <Text style={styles.headerSubtitle}>
             {userEmail
@@ -621,6 +626,20 @@ function createStyles(theme: Theme) {
     },
     adminBadgeText: {
       color: theme.primary,
+      fontSize: 10,
+      fontWeight: '800',
+      letterSpacing: 0.5,
+    },
+    osuBadge: {
+      backgroundColor: '#DC4405' + '22',
+      paddingHorizontal: 8,
+      paddingVertical: 2,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderColor: '#DC4405' + '44',
+    },
+    osuBadgeText: {
+      color: '#DC4405',
       fontSize: 10,
       fontWeight: '800',
       letterSpacing: 0.5,
