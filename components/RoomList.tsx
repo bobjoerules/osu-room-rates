@@ -32,7 +32,7 @@ export default function RoomList({ rooms }: RoomListProps) {
         activeOpacity={0.7}
       >
         {item.images && item.images.length > 0 && (
-          <Image source={item.images[0]} style={styles.roomImage} transition={300} />
+          <Image source={item.images[0]} style={styles.roomImage} />
         )}
         <View style={styles.roomContent}>
           <Text style={[styles.roomName, { color: theme.text }]}>Room {roomName}</Text>

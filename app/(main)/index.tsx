@@ -9,7 +9,11 @@ import RoomList from '../../components/RoomList';
 import { BUILDINGS_DATA } from '../../data/rooms';
 import { useSettings } from '../../lib/SettingsContext';
 import { Theme, useTheme } from '../../theme';
-const PlaceholderImage = require('../../assets/images/placeholder.png');
+
+const isPlaceholderImage = (imageUrl: string | undefined): boolean => {
+  if (!imageUrl) return false;
+  return imageUrl.includes('placeholder.png');
+};
 
 export default function Index() {
   const theme = useTheme();
@@ -33,7 +37,7 @@ export default function Index() {
       const buildingNameMatch = building.name.toLowerCase().includes(lowerQuery);
 
       const matchingRooms = building.rooms.filter(room => {
-        const hasPhotos = room.images?.length > 0 && room.images[0] !== PlaceholderImage;
+        const hasPhotos = room.images?.length > 0 && !isPlaceholderImage(room.images[0]);
         const roomName = room.id.split('-').pop() || '';
 
         if (isSearching) {
@@ -62,7 +66,7 @@ export default function Index() {
 
     return filtered.map(building => {
       const buildingImage = building.images?.[0];
-      const hasValidImage = buildingImage && buildingImage !== PlaceholderImage;
+      const hasValidImage = buildingImage && !isPlaceholderImage(buildingImage);
       
       return {
         id: building.id,

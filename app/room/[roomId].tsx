@@ -15,6 +15,13 @@ import { useHapticFeedback } from '../../lib/SettingsContext';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
+const STORAGE_URL = 'https://firebasestorage.googleapis.com/v0/b/osu-room-rates.firebasestorage.app/o';
+
+const firebaseImage = (path: string): string => {
+    const encodedPath = encodeURIComponent(path);
+    return `${STORAGE_URL}/${encodedPath}?alt=media`;
+};
+
 export default function RoomDetail() {
   const { roomId } = useLocalSearchParams<{ roomId: string }>();
   const router = useRouter();
@@ -88,7 +95,7 @@ export default function RoomDetail() {
     id: 'unknown',
     name: '???',
     building: 'Unknown Building',
-    images: [require('../../assets/images/placeholder.png')],
+    images: [firebaseImage('placeholder.png')],
     floor: 'Unknown',
     capacity: 'Unknown',
     roomType: 'Unknown',

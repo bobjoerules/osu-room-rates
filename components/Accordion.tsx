@@ -25,7 +25,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isExpand
 
   const handlePress = () => {
     triggerHaptic();
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // Use simpler, faster animation
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     onPress();
   };
 
