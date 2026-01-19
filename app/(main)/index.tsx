@@ -173,13 +173,13 @@ export default function Index() {
 
             @media (min-width: 768px) {
               [data-grid-item] {
-                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+                transition: box-shadow 0.2s ease, border-color 0.2s ease !important;
+                will-change: box-shadow !important;
                 border: 1px solid ${theme.border} !important;
                 background-color: ${theme.card} !important;
               }
               [data-grid-item]:hover {
-                transform: translateY(-6px) scale(1.01) !important;
-                box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 10px 10px rgba(0,0,0,0.06) !important;
+                box-shadow: 0 16px 24px rgba(0,0,0,0.10), 0 8px 8px rgba(0,0,0,0.06) !important;
                 border-color: ${theme.primary}44 !important;
                 z-index: 5;
               }
@@ -210,10 +210,11 @@ export default function Index() {
         key={isDesktopWeb && !(searchQuery.trim().length > 0) ? 'web-grid' : 'list-one-col'}
         columnWrapperStyle={isDesktopWeb && !(searchQuery.trim().length > 0) ? styles.columnWrapper : undefined}
         renderItem={renderItem}
-        maxToRenderPerBatch={10}
-        windowSize={5}
+        maxToRenderPerBatch={20}
+        windowSize={10}
+        updateCellsBatchingPeriod={0}
         removeClippedSubviews={Platform.OS === 'android'}
-        initialNumToRender={10}
+        initialNumToRender={20}
         extraData={searchQuery}
         onScrollToIndexFailed={(info) => {
           flatListRef.current?.scrollToOffset({
@@ -224,7 +225,10 @@ export default function Index() {
         style={[{ flex: 1 }, isDesktopWeb && { width: '100%', maxWidth: 1200, alignSelf: 'center' }]}
         contentContainerStyle={[
           styles.scrollContent,
-          { paddingTop: (Platform.OS === 'web' ? insets.top + headerHeight + 75 + 16 : insets.top + headerHeight) }
+          {
+            paddingTop: (Platform.OS === 'web' ? insets.top + headerHeight + 75 + 16 : insets.top + headerHeight),
+            paddingBottom: insets.bottom + 16,
+          }
         ]}
       />
 
@@ -307,7 +311,7 @@ function createStyles(theme: Theme) {
     },
     scrollContent: {
       paddingHorizontal: 16,
-      paddingBottom: 80,
+      // bottom padding is applied dynamically in contentContainerStyle
     },
     columnWrapper: {
       gap: 16,
