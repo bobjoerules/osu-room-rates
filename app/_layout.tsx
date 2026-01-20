@@ -1,6 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter } from 'expo-router';
+import Head from 'expo-router/head';
 import * as SplashScreen from 'expo-splash-screen';
 import * as SystemUI from 'expo-system-ui';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -107,6 +108,12 @@ function AuthenticatedStack() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
+      {Platform.OS === 'web' && (
+        <Head>
+          {/* Ensure Apple touch icon uses icon.png (copied as favicon) */}
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" />
+        </Head>
+      )}
       {Platform.OS === 'web' && (
         <style>
           {`
