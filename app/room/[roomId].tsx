@@ -239,12 +239,11 @@ export default function RoomDetail() {
                 -webkit-backdrop-filter: blur(12px) !important;
                 background-color: ${theme.background}cc !important;
                 border-bottom: 1px solid ${theme.border}44 !important;
-                right: 12px !important;
               }
+              /* Avoid overriding global nav positioning to keep it centered */
               .EFtDwW_navigationMenuRoot {
                 background-color: ${theme.card} !important;
                 border-bottom: 1px solid ${theme.border}44 !important;
-                right: 12px !important;
               }
               [data-carousel-container] {
                 user-select: none !important;
@@ -281,7 +280,7 @@ export default function RoomDetail() {
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMoveWrapper}
           onMouseUp={handleMouseUp}
-          dataSet={{ 'carousel-container': 'true' }}
+          {...(roomData.images.length > 1 ? { dataSet: { 'carousel-container': 'true' } } : {})}
         >
           {roomData.images.length > 1 ? (
             <>

@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: Platform.OS === 'web' ? 500 : 300,
+    height: 300,
   },
   gradientOverlay: {
     position: 'absolute',
