@@ -47,8 +47,6 @@ export default function BuildingRating({ roomIds, size = 14 }: BuildingRatingPro
         };
     }, [roomRatings]);
 
-    if (count === 0) return null;
-
     return (
         <View style={styles.container}>
             <View style={styles.stars}>
@@ -62,10 +60,10 @@ export default function BuildingRating({ roomIds, size = 14 }: BuildingRatingPro
                     let showHalfOverlay = false;
                     let baseColor = theme.starInactive;
 
-                    if (starIndex <= fullStar) {
+                    if (count > 0 && starIndex <= fullStar) {
                         starName = 'star';
                         baseColor = theme.starActive;
-                    } else if (hasHalf && starIndex === halfStarIndex) {
+                    } else if (count > 0 && hasHalf && starIndex === halfStarIndex) {
                         starName = 'star-o';
                         showHalfOverlay = true;
                         baseColor = theme.starInactive;
@@ -87,7 +85,7 @@ export default function BuildingRating({ roomIds, size = 14 }: BuildingRatingPro
                 })}
             </View>
             <Text style={[styles.text, { color: theme.subtext }]}>
-                {avg.toFixed(1)} ({count})
+                {count > 0 ? `${avg.toFixed(1)} (${count})` : 'No ratings'}
             </Text>
         </View>
     );
