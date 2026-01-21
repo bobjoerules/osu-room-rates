@@ -140,9 +140,41 @@ export default function Account() {
       const currentUser = auth.currentUser;
       if (currentUser) {
         // Reload the user to get fresh email verification status
-        currentUser.reload().then(() => {
+        currentUser.reload().then(async () => {
           setUserEmail(currentUser.email);
           setUserName(currentUser.displayName);
+
+          // Reload admin status and pending submissions
+          try {
+            const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+            if (userDoc.exists()) {
+              const userData = userDoc.data();
+              const role = userData.role;
+              setUserRole(role);
+
+              if (role === "admin" || role === "owner") {
+                setIsAdmin(true);
+                const submissionsColl = collection(db, "submissions");
+                const q = query(submissionsColl, where("status", "==", "pending"));
+                const snapshot = await getCountFromServer(q);
+                setPendingCount(snapshot.data().count);
+              } else {
+                setIsAdmin(false);
+                setPendingCount(null);
+              }
+            }
+          } catch (err) {
+            console.error("Error reloading admin status:", err);
+          }
+
+          // Reload user count
+          try {
+            const coll = collection(db, "users");
+            const snapshot = await getCountFromServer(coll);
+            setUserCount(snapshot.data().count);
+          } catch (err) {
+            console.error("Error fetching user count:", err);
+          }
         }).catch((error) => {
           console.error("Error reloading user:", error);
         });
