@@ -31,7 +31,8 @@ import {
   Switch,
   Text,
   TextInput,
-  View
+  View,
+  useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BUILDINGS_DATA } from "../data/rooms";
@@ -45,6 +46,8 @@ export default function Account() {
   const triggerHaptic = useHapticFeedback();
   const router = useRouter();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const { width } = useWindowDimensions();
+  const isDesktopWeb = Platform.OS === 'web' && width >= 768;
 
   const totalRooms = useMemo(() => {
     return BUILDINGS_DATA.reduce((acc, building) => acc + building.rooms.length, 0);
@@ -245,7 +248,7 @@ export default function Account() {
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView
         style={{ flex: 1, width: '100%' }}
-        contentContainerStyle={[styles.scrollContent, (Platform.OS !== 'web' || !userEmail) && styles.scrollContentCentered]}
+        contentContainerStyle={[styles.scrollContent, isDesktopWeb && styles.scrollContentCentered]}
         showsVerticalScrollIndicator={false}
         scrollEnabled={Platform.OS === 'web' || !userEmail}
       >
@@ -391,7 +394,7 @@ export default function Account() {
                 <View style={styles.settingRow}>
                   <View style={{ flex: 1, gap: 2 }}>
                     <Text style={[styles.settingLabel, { color: theme.text }]}>Show Building Images</Text>
-                    <Text style={[styles.settingDescription, { color: theme.subtext }]}>Display building images under dropdown headers{Platform.OS === 'web' ? ' (images may look bad due to screen size)' : ''}</Text>
+                    <Text style={[styles.settingDescription, { color: theme.subtext }]}>Display building images under dropdown headers</Text>
                   </View>
                   <Switch
                     value={showBuildingImages}

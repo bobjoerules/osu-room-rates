@@ -319,10 +319,10 @@ function createStyles(theme: Theme, isDesktop: boolean = false) {
             backgroundColor: theme.background,
         },
         scrollContent: {
-            ...(isDesktop ? { flexGrow: 1 } : {}),
+            ...(isDesktop ? { flexGrow: 1, justifyContent: 'center' } : {}),
             paddingHorizontal: 20,
             paddingBottom: 20,
-            ...(Platform.OS === 'web' && { paddingTop: 75 }),
+            ...(Platform.OS === 'web' && !isDesktop ? { paddingTop: 75 } : {}),
             maxWidth: 600,
             width: '100%',
             alignSelf: 'center',
