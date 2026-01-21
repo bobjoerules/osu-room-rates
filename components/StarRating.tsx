@@ -98,23 +98,6 @@ export default function StarRating({ itemId, initialMax = 5, size = 40, showMeta
     setAvg(newOptimisticAvg);
     setCount(newOptimisticCount);
 
-    // Check if user is test account
-    let isTestAccount = false;
-    try {
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (userDoc.exists() && userDoc.data().role === 'test') {
-        isTestAccount = true;
-      }
-    } catch (e) {
-      console.error('Error checking user role:', e);
-    }
-
-    // Skip Firebase write if test account
-    if (isTestAccount) {
-      triggerHaptic();
-      return;
-    }
-
     const itemRef = doc(db, 'ratings', itemId);
     const userRef = doc(db, 'ratings', itemId, 'userRatings', user.uid);
 

@@ -134,17 +134,13 @@ export default function Account() {
     return unsub;
   }, []);
 
-  // Reload user data when page comes into focus
   useFocusEffect(
     useCallback(() => {
       const currentUser = auth.currentUser;
       if (currentUser) {
-        // Reload the user to get fresh email verification status
         currentUser.reload().then(async () => {
           setUserEmail(currentUser.email);
           setUserName(currentUser.displayName);
-
-          // Reload admin status and pending submissions
           try {
             const userDoc = await getDoc(doc(db, "users", currentUser.uid));
             if (userDoc.exists()) {
@@ -166,8 +162,6 @@ export default function Account() {
           } catch (err) {
             console.error("Error reloading admin status:", err);
           }
-
-          // Reload user count
           try {
             const coll = collection(db, "users");
             const snapshot = await getCountFromServer(coll);
