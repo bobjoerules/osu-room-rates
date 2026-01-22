@@ -209,11 +209,11 @@ export default function Index() {
         key={isDesktopWeb && !(searchQuery.trim().length > 0) ? 'web-grid' : 'list-one-col'}
         columnWrapperStyle={isDesktopWeb && !(searchQuery.trim().length > 0) ? styles.columnWrapper : undefined}
         renderItem={renderItem}
-        maxToRenderPerBatch={30}
-        windowSize={30}
+        maxToRenderPerBatch={1000}
+        windowSize={1000}
         updateCellsBatchingPeriod={0}
         removeClippedSubviews={false}
-        initialNumToRender={20}
+        initialNumToRender={1000}
         extraData={searchQuery}
         onScrollToIndexFailed={(info) => {
           flatListRef.current?.scrollToOffset({
