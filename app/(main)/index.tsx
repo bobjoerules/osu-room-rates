@@ -209,10 +209,10 @@ export default function Index() {
         key={isDesktopWeb && !(searchQuery.trim().length > 0) ? 'web-grid' : 'list-one-col'}
         columnWrapperStyle={isDesktopWeb && !(searchQuery.trim().length > 0) ? styles.columnWrapper : undefined}
         renderItem={renderItem}
-        maxToRenderPerBatch={20}
-        windowSize={10}
+        maxToRenderPerBatch={30}
+        windowSize={30}
         updateCellsBatchingPeriod={0}
-        removeClippedSubviews={Platform.OS === 'android'}
+        removeClippedSubviews={false}
         initialNumToRender={20}
         extraData={searchQuery}
         onScrollToIndexFailed={(info) => {
