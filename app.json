@@ -11,7 +11,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bobjoerules.osuroomrates"
+      "bundleIdentifier": "com.bobjoerules.osurooms"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.bobjoerules.osuroomrates"
+      "package": "com.bobjoerules.osurooms"
     },
     "web": {
       "output": "static",
@@ -49,12 +49,12 @@
       "typedRoutes": true,
       "reactCompiler": true
     },
+    "owner": "bobjoerules",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "b7efa194-6b33-404b-9ea3-82a733cd5f36"
+        "projectId": "3fd11666-0320-468c-bdfe-deebe18ee4c5"
       }
-    },
-    "owner": "bobjoerules"
+    }
   }
 }
