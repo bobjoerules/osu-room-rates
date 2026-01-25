@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { Image, LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View, useWindowDimensions } from 'react-native';
+import { LayoutAnimation, Platform, StyleSheet, Text, TouchableOpacity, UIManager, View, useWindowDimensions } from 'react-native';
 import { useHapticFeedback } from '../lib/SettingsContext';
 import { useTheme } from '../theme';
 
@@ -75,7 +76,7 @@ export const AccordionItem = React.memo<AccordionItemProps>(({ title, children, 
           <Image
             source={typeof image === 'string' ? { uri: image } : image}
             style={styles.image}
-            resizeMode="cover"
+            contentFit="cover"
           />
           <LinearGradient
             colors={[theme.card, 'transparent']}

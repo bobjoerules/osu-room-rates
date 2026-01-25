@@ -24,10 +24,10 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Linking,
   Platform,
   Pressable,
-  Image,
   ScrollView,
   StyleSheet,
   Switch,
@@ -44,18 +44,11 @@ import { Theme, useTheme } from "../theme";
 
 export default function Account() {
   const theme = useTheme();
-  const { showPlaceholders, setShowPlaceholders, useHaptics, setUseHaptics, showBuildingImages, setShowBuildingImages } = useSettings();
+  const { showPlaceholders, setShowPlaceholders, useHaptics, setUseHaptics, showBuildingImages, setShowBuildingImages, useBetaFeatures, setUseBetaFeatures } = useSettings();
   const triggerHaptic = useHapticFeedback();
   const router = useRouter();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const { width } = useWindowDimensions();
-  const isDesktopWeb = Platform.OS === 'web' && width >= 768;
-  const centerLoginMobile = Platform.OS !== 'web' && !userEmail;
-
-  const totalRooms = useMemo(() => {
-    return BUILDINGS_DATA.reduce((acc, building) => acc + building.rooms.length, 0);
-  }, []);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -74,6 +67,13 @@ export default function Account() {
   const [pendingCount, setPendingCount] = useState<number | null>(null);
   const [showAppStore, setShowAppStore] = useState(false);
   const [showPlayStore, setShowPlayStore] = useState(false);
+
+  const isDesktopWeb = Platform.OS === 'web' && width >= 768;
+  const centerLoginMobile = Platform.OS !== 'web' && !userEmail;
+
+  const totalRooms = useMemo(() => {
+    return BUILDINGS_DATA.reduce((acc, building) => acc + building.rooms.length, 0);
+  }, []);
 
   const version = Constants.expoConfig?.version || "1.0.0";
 
@@ -204,6 +204,7 @@ export default function Account() {
     if (hasError) return;
 
     setLoading(true);
+    triggerHaptic();
     try {
       if (mode === "login") {
         await signInWithEmailAndPassword(auth, trimmedEmail, trimmedPassword);
@@ -361,6 +362,7 @@ export default function Account() {
                   <Pressable
                     style={[styles.buttonSecondary, { backgroundColor: theme.primary, borderColor: theme.primary, marginTop: 20, width: '100%' }]}
                     onPress={async () => {
+                      triggerHaptic();
                       try {
                         if (auth.currentUser) {
                           await sendEmailVerification(auth.currentUser);
@@ -390,6 +392,7 @@ export default function Account() {
                       { backgroundColor: pressed ? theme.border + '44' : theme.background + '88' }
                     ]}
                     onPress={() => {
+                      triggerHaptic();
                       router.push("/admin" as any);
                     }}
                   >
@@ -425,8 +428,6 @@ export default function Account() {
                     }}
                     trackColor={{ false: theme.border, true: theme.primary }}
                     thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
-                    activeThumbColor="#fff"
-                    activeTrackColor={theme.primary}
                   />
                 </View>
 
@@ -444,8 +445,6 @@ export default function Account() {
                       }}
                       trackColor={{ false: theme.border, true: theme.primary }}
                       thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
-                      activeThumbColor="#fff"
-                      activeTrackColor={theme.primary}
                     />
                   </View>
                 )}
@@ -463,8 +462,22 @@ export default function Account() {
                     }}
                     trackColor={{ false: theme.border, true: theme.primary }}
                     thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
-                    activeThumbColor="#fff"
-                    activeTrackColor={theme.primary}
+                  />
+                </View>
+
+                <View style={styles.settingRow}>
+                  <View style={{ flex: 1, gap: 2 }}>
+                    <Text style={[styles.settingLabel, { color: theme.text }]}>OSU Tab</Text>
+                    <Text style={[styles.settingDescription, { color: theme.subtext }]}>Adds a tab with useful student links</Text>
+                  </View>
+                  <Switch
+                    value={useBetaFeatures}
+                    onValueChange={(val) => {
+                      triggerHaptic();
+                      setUseBetaFeatures(val);
+                    }}
+                    trackColor={{ false: theme.border, true: theme.primary }}
+                    thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
                   />
                 </View>
               </View>
@@ -530,6 +543,7 @@ export default function Account() {
               <Pressable
                 style={styles.linkButton}
                 onPress={() => {
+                  triggerHaptic();
                   setMode(isSignup ? "login" : "signup");
                   setMessage(null);
                   setEmailError(null);

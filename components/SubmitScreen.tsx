@@ -178,7 +178,10 @@ export default function SubmitScreen() {
                         <View style={styles.dropdownContainer}>
                             <Pressable
                                 style={[styles.pickerTrigger, isPickerOpen && styles.pickerTriggerOpen]}
-                                onPress={() => setIsPickerOpen(!isPickerOpen)}
+                                onPress={() => {
+                                    triggerHaptic();
+                                    setIsPickerOpen(!isPickerOpen);
+                                }}
                             >
                                 <Text style={[
                                     styles.pickerTriggerText,
@@ -201,6 +204,7 @@ export default function SubmitScreen() {
                                                 key={item}
                                                 style={styles.inlinePickerItem}
                                                 onPress={() => {
+                                                    triggerHaptic();
                                                     if (item === "Other (Type manually)") {
                                                         setIsOtherSelected(true);
                                                         setBuilding('');
@@ -282,7 +286,10 @@ export default function SubmitScreen() {
                             {image && (
                                 <Pressable
                                     style={styles.removeImageButton}
-                                    onPress={() => setImage(null)}
+                                    onPress={() => {
+                                        triggerHaptic();
+                                        setImage(null);
+                                    }}
                                 >
                                     <View style={styles.removeImageBackground}>
                                         <Ionicons name="close" size={20} color="#fff" />

@@ -1,0 +1,156 @@
+import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import {
+    Alert,
+    FlatList,
+    Linking,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    View
+} from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { OSU_LINKS } from '../../data/osuLinks';
+import { useHapticFeedback } from '../../lib/SettingsContext';
+import { useTheme } from '../../theme';
+
+export default function OsuScreen() {
+    const theme = useTheme();
+    const triggerHaptic = useHapticFeedback();
+    const insets = useSafeAreaInsets();
+
+    const handleOpenLink = async (url: string, appScheme?: string) => {
+        triggerHaptic();
+
+        if (appScheme && Platform.OS !== 'web') {
+            try {
+                await Linking.openURL(appScheme);
+                return;
+            } catch (e) {
+            }
+        }
+
+        try {
+            await Linking.openURL(url);
+        } catch (e) {
+            Alert.alert('Error', 'Could not open the link.');
+        }
+    };
+
+    const categorizedLinks = OSU_LINKS.reduce((acc, link) => {
+        const cat = link.category;
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(link);
+        return acc;
+    }, {} as Record<string, typeof OSU_LINKS>);
+
+    const renderSection = (title: string, data: typeof OSU_LINKS) => (
+        <View style={styles.sectionContainer}>
+            <Text style={[styles.sectionTitle, { color: theme.text }]}>{title}</Text>
+            <View style={[styles.sectionBox, { backgroundColor: theme.card, borderColor: theme.border }]}>
+                {data.map((item, index) => (
+                    <Pressable
+                        key={item.url}
+                        style={({ pressed }) => [
+                            styles.linkItem,
+                            index !== data.length - 1 && { borderBottomWidth: 1, borderBottomColor: theme.border },
+                            pressed && { backgroundColor: theme.border + '33' }
+                        ]}
+                        onPress={() => handleOpenLink(item.url, item.appScheme)}
+                    >
+                        <View style={[styles.iconBox, { backgroundColor: theme.primary + '15' }]}>
+                            <Ionicons name={item.icon as any || 'link'} size={20} color={theme.primary} />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <Text style={[styles.linkLabel, { color: theme.text }]}>{item.title}</Text>
+                            <Text style={[styles.linkUrl, { color: theme.subtext }]} numberOfLines={1}>{item.url}</Text>
+                        </View>
+                        <Ionicons name="chevron-forward" size={18} color={theme.border} />
+                    </Pressable>
+                ))}
+            </View>
+        </View>
+    );
+
+    return (
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]} edges={['top']}>
+            <View style={styles.header}>
+                <Text style={[styles.title, { color: theme.text }]}>OSU Resources</Text>
+                <Text style={[styles.subtitle, { color: theme.subtext }]}>Useful links/resources for students</Text>
+            </View>
+
+            <FlatList
+                data={[]}
+                renderItem={() => null}
+                contentContainerStyle={[
+                    styles.listContent,
+                    { paddingBottom: insets.bottom + 24 }
+                ]}
+                ListHeaderComponent={
+                    <View>
+                        {categorizedLinks['Websites'] && renderSection('Websites', categorizedLinks['Websites'])}
+                        {categorizedLinks['Apps'] && renderSection('Apps', categorizedLinks['Apps'])}
+                    </View>
+                }
+            />
+        </SafeAreaView>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    header: {
+        paddingHorizontal: 20,
+        paddingVertical: 16,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: 'bold',
+    },
+    subtitle: {
+        fontSize: 14,
+        marginTop: 4,
+    },
+    listContent: {
+        padding: 20,
+        paddingTop: 0,
+    },
+    sectionContainer: {
+        marginBottom: 24,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 12,
+        marginLeft: 4,
+    },
+    sectionBox: {
+        borderRadius: 20,
+        borderWidth: 1,
+        overflow: 'hidden',
+    },
+    linkItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 16,
+        gap: 12,
+    },
+    iconBox: {
+        width: 44,
+        height: 44,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    linkLabel: {
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    linkUrl: {
+        fontSize: 12,
+        marginTop: 2,
+    },
+});

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
 interface SettingsContextType {
@@ -10,6 +10,8 @@ interface SettingsContextType {
     setUseHaptics: (value: boolean) => void;
     showBuildingImages: boolean;
     setShowBuildingImages: (value: boolean) => void;
+    useBetaFeatures: boolean;
+    setUseBetaFeatures: (value: boolean) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -17,21 +19,24 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 const PLACEHOLDERS_KEY = '@osu_room_rates_show_placeholders';
 const HAPTICS_KEY = '@osu_room_rates_use_haptics';
 const BUILDING_IMAGES_KEY = '@osu_room_rates_show_building_images';
+const BETA_FEATURES_KEY = '@osu_room_rates_use_beta_features';
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const [showPlaceholders, setShowPlaceholders] = useState(false);
     const [useHaptics, setUseHaptics] = useState(true);
     const [showBuildingImages, setShowBuildingImages] = useState(Platform.OS !== 'web');
+    const [useBetaFeatures, setUseBetaFeatures] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Load initial settings
         const loadSettings = async () => {
             try {
-                const [placeholdersValue, hapticsValue, buildingImagesValue] = await Promise.all([
+                const [placeholdersValue, hapticsValue, buildingImagesValue, betaFeaturesValue] = await Promise.all([
                     AsyncStorage.getItem(PLACEHOLDERS_KEY),
                     AsyncStorage.getItem(HAPTICS_KEY),
                     AsyncStorage.getItem(BUILDING_IMAGES_KEY),
+                    AsyncStorage.getItem(BETA_FEATURES_KEY),
                 ]);
 
                 if (placeholdersValue !== null) {
@@ -42,6 +47,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
                 }
                 if (buildingImagesValue !== null) {
                     setShowBuildingImages(JSON.parse(buildingImagesValue));
+                }
+                if (betaFeaturesValue !== null) {
+                    setUseBetaFeatures(JSON.parse(betaFeaturesValue));
                 }
             } catch (e) {
                 console.error('Failed to load settings', e);
@@ -79,9 +87,14 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    if (isLoading) {
-        return null; // Or a loading spinner
-    }
+    const updateUseBetaFeatures = async (value: boolean) => {
+        try {
+            setUseBetaFeatures(value);
+            await AsyncStorage.setItem(BETA_FEATURES_KEY, JSON.stringify(value));
+        } catch (e) {
+            console.error('Failed to save settings', e);
+        }
+    };
 
     return (
         <SettingsContext.Provider value={{
@@ -90,7 +103,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
             useHaptics,
             setUseHaptics: updateUseHaptics,
             showBuildingImages,
-            setShowBuildingImages: updateShowBuildingImages
+            setShowBuildingImages: updateShowBuildingImages,
+            useBetaFeatures,
+            setUseBetaFeatures: updateUseBetaFeatures
         }}>
             {children}
         </SettingsContext.Provider>
@@ -108,11 +123,11 @@ export function useSettings() {
 export function useHapticFeedback() {
     const { useHaptics } = useSettings();
 
-    const trigger = (style: Haptics.ImpactFeedbackStyle = Haptics.ImpactFeedbackStyle.Light) => {
+    const trigger = useCallback((style: Haptics.ImpactFeedbackStyle = Haptics.ImpactFeedbackStyle.Light) => {
         if (useHaptics && Platform.OS !== 'web') {
             Haptics.impactAsync(style);
         }
-    };
+    }, [useHaptics]);
 
     return trigger;
 }

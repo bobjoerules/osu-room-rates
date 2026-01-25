@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, writeBatch } from 'firebase/firestore';
-import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, Platform, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import RatingDisplay from '../../components/RatingDisplay';
@@ -148,10 +148,10 @@ export default function RoomDetail() {
     const threshold = 50;
 
     if (Math.abs(diff) > threshold) {
-      const newIndex = diff > 0 
+      const newIndex = diff > 0
         ? Math.min(roomData.images.length - 1, activeImageIndex + 1)
         : Math.max(0, activeImageIndex - 1);
-      
+
       if (newIndex !== activeImageIndex) {
         setActiveImageIndex(newIndex);
         flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
@@ -175,7 +175,7 @@ export default function RoomDetail() {
 
   const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollOffset = event.nativeEvent.contentOffset.x;
-    
+
     if (isDesktopWeb) {
       const index = Math.round(scrollOffset / (DESKTOP_IMAGE_WIDTH + GAP));
       if (index >= 0 && index < roomData.images.length) {
@@ -255,7 +255,7 @@ export default function RoomDetail() {
     if (mouseDown) {
       e.preventDefault();
     }
-    handleMouseMove(e);
+    handleMouseMove(e as any);
   };
 
   return (
@@ -310,7 +310,8 @@ export default function RoomDetail() {
           isDesktopWeb && { maxWidth: 1200, alignSelf: 'center', width: '100%' }
         ]}
       >
-        <View 
+        {/* @ts-ignore */}
+        <View
           style={[styles.imageContainer, isDesktopWeb && { paddingHorizontal: 16 }]}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMoveWrapper}
@@ -358,7 +359,7 @@ export default function RoomDetail() {
                         borderRadius: isDesktopWeb ? 24 : 16,
                       }
                     ]}
-                    transition={500}
+                    transition={200}
                   />
                 )}
                 scrollEnabled={true}
@@ -456,7 +457,7 @@ export default function RoomDetail() {
               <RatingDisplay itemId={`${finalRoomId}_projector`} size={24} showMetaText={false} />
             </View>
 
-            <View style={[styles.detailRow, { alignItems: 'center' }]}> 
+            <View style={[styles.detailRow, { alignItems: 'center' }]}>
               <Text style={[styles.detailLabel, { color: theme.text }]}>Temperature</Text>
               {(() => {
                 const STAR_SIZE_DETAILED = 24;
