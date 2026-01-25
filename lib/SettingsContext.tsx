@@ -18,11 +18,11 @@ interface SettingsContextType {
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
-const PLACEHOLDERS_KEY = '@osu_room_rates_show_placeholders';
-const HAPTICS_KEY = '@osu_room_rates_use_haptics';
-const BUILDING_IMAGES_KEY = '@osu_room_rates_show_building_images';
-const BETA_FEATURES_KEY = '@osu_room_rates_use_beta_features';
-const SHOW_SUBMIT_TAB_KEY = '@osu_room_rates_show_submit_tab';
+const PLACEHOLDERS_KEY = '@osu_rooms_show_placeholders';
+const HAPTICS_KEY = '@osu_rooms_use_haptics';
+const BUILDING_IMAGES_KEY = '@osu_rooms_show_building_images';
+const BETA_FEATURES_KEY = '@osu_rooms_use_beta_features';
+const SHOW_SUBMIT_TAB_KEY = '@osu_rooms_show_submit_tab';
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const [showPlaceholders, setShowPlaceholders] = useState(false);
