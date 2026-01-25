@@ -42,6 +42,8 @@ import { auth, db } from "../firebaseConfig";
 import { useHapticFeedback, useSettings } from "../lib/SettingsContext";
 import { Theme, useTheme } from "../theme";
 
+const colours = { white: '#ffffff' };
+
 export default function Account() {
   const theme = useTheme();
   const { showPlaceholders, setShowPlaceholders, useHaptics, setUseHaptics, showBuildingImages, setShowBuildingImages, useBetaFeatures, setUseBetaFeatures } = useSettings();
@@ -441,7 +443,8 @@ export default function Account() {
                       setShowPlaceholders(val);
                     }}
                     trackColor={{ false: theme.border, true: theme.primary }}
-                    thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
+                    thumbColor={Platform.OS === 'ios' ? undefined : colours.white}
+                    activeThumbColor={colours.white}
                   />
                 </View>
 
@@ -459,6 +462,7 @@ export default function Account() {
                       }}
                       trackColor={{ false: theme.border, true: theme.primary }}
                       thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
+                      activeThumbColor="white"
                     />
                   </View>
                 )}
@@ -475,7 +479,8 @@ export default function Account() {
                       setShowBuildingImages(val);
                     }}
                     trackColor={{ false: theme.border, true: theme.primary }}
-                    thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
+                    thumbColor={Platform.OS === 'ios' ? undefined : colours.white}
+                    activeThumbColor={colours.white}
                   />
                 </View>
 
@@ -491,7 +496,8 @@ export default function Account() {
                       setUseBetaFeatures(val);
                     }}
                     trackColor={{ false: theme.border, true: theme.primary }}
-                    thumbColor={Platform.OS === 'ios' ? undefined : '#fff'}
+                    thumbColor={Platform.OS === 'ios' ? undefined : colours.white}
+                    activeThumbColor={colours.white}
                   />
                 </View>
               </View>
@@ -644,7 +650,7 @@ function createStyles(theme: Theme) {
       flexGrow: 1,
       alignItems: "center",
       paddingHorizontal: 16,
-      paddingTop: Platform.OS === 'web' ? 75 : 0,
+      paddingTop: 0,
       paddingBottom: 40,
     },
     scrollContentCentered: {
