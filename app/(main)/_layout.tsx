@@ -23,13 +23,13 @@ export default function TabLayout() {
             <>
                 {Platform.OS === 'web' && <style>{``}</style>}
                 <NativeTabs tintColor="#D73F09">
-                    <NativeTabs.Trigger name="submit">
-                        <Label>Add Room</Label>
-                        <Icon sf="plus.circle.fill" drawable="ic_input_add" />
-                    </NativeTabs.Trigger>
                     <NativeTabs.Trigger name="index">
                         <Label>Rooms</Label>
                         <Icon sf="square.grid.2x2.fill" drawable="ic_menu_home" />
+                    </NativeTabs.Trigger>
+                    <NativeTabs.Trigger name="submit">
+                        <Label>Add Room</Label>
+                        <Icon sf="plus.circle.fill" drawable="ic_input_add" />
                     </NativeTabs.Trigger>
                     <NativeTabs.Trigger name="osu">
                         <Label>OSU</Label>
@@ -48,13 +48,13 @@ export default function TabLayout() {
         <>
             {Platform.OS === 'web' && <style>{``}</style>}
             <NativeTabs tintColor="#D73F09">
-                <NativeTabs.Trigger name="submit">
-                    <Label>Add Room</Label>
-                    <Icon sf="plus.circle.fill" drawable="ic_input_add" />
-                </NativeTabs.Trigger>
                 <NativeTabs.Trigger name="index">
                     <Label>Rooms</Label>
                     <Icon sf="square.grid.2x2.fill" drawable="ic_menu_home" />
+                </NativeTabs.Trigger>
+                <NativeTabs.Trigger name="submit">
+                    <Label>Add Room</Label>
+                    <Icon sf="plus.circle.fill" drawable="ic_input_add" />
                 </NativeTabs.Trigger>
                 <NativeTabs.Trigger name="account">
                     <Label>Account</Label>

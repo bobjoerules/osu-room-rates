@@ -243,12 +243,17 @@ export default function Index() {
         key={isDesktopWeb && !(searchQuery.trim().length > 0) ? 'web-grid' : 'list-one-col'}
         columnWrapperStyle={isDesktopWeb && !(searchQuery.trim().length > 0) ? styles.columnWrapper : undefined}
         renderItem={renderItem}
-        maxToRenderPerBatch={100}
-        windowSize={100}
-        updateCellsBatchingPeriod={50}
-        removeClippedSubviews={Platform.OS === 'android'}
-        initialNumToRender={100}
-        extraData={searchQuery + Object.keys(expandedIds).length}
+        maxToRenderPerBatch={Platform.OS === 'android' ? 5 : 50}
+        windowSize={Platform.OS === 'android' ? 21 : 41}
+        updateCellsBatchingPeriod={Platform.OS === 'android' ? 100 : 30}
+        removeClippedSubviews={false}
+        initialNumToRender={Platform.OS === 'android' ? 10 : 50}
+        getItemLayout={(_, index) => ({
+          length: 120,
+          offset: 120 * index,
+          index,
+        })}
+        extraData={JSON.stringify(expandedIds) + searchQuery}
         onScrollToIndexFailed={(info) => {
           flatListRef.current?.scrollToOffset({
             offset: info.averageItemLength * info.index,
