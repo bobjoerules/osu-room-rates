@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { FlatList, Platform, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AccordionItem } from '../../components/Accordion';
@@ -14,6 +14,61 @@ const isPlaceholderImage = (imageUrl: string | undefined): boolean => {
   if (!imageUrl) return false;
   return imageUrl.includes('placeholder.png');
 };
+
+const BuildingListItem = React.memo(({
+  item,
+  index,
+  isExpanded,
+  onPress,
+  isDesktopWeb,
+  isSearching,
+  showBuildingImages,
+  theme,
+  styles
+}: {
+  item: typeof BUILDINGS_DATA[0],
+  index: number,
+  isExpanded: boolean,
+  onPress: (id: string, index: number) => void,
+  isDesktopWeb: boolean,
+  isSearching: boolean,
+  showBuildingImages: boolean,
+  theme: Theme,
+  styles: any
+}) => {
+  const buildingImage = item.images?.[0];
+  const hasValidImage = buildingImage && !isPlaceholderImage(buildingImage);
+
+  const title = (
+    <View style={{ flex: 1 }}>
+      <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>{item.name}</Text>
+      <BuildingRating roomIds={item.rooms.map(r => r.id)} />
+    </View>
+  );
+
+  const content = (isDesktopWeb && !isSearching) ? null : <RoomList rooms={item.rooms} />;
+
+  return (
+    <View style={isDesktopWeb ? (isSearching ? styles.listItemFullWidth : styles.gridItem) : undefined}>
+      <AccordionItem
+        title={title}
+        isExpanded={isExpanded}
+        onPress={() => {
+          onPress(item.id, index);
+          return false;
+        }}
+        image={buildingImage}
+        showImage={showBuildingImages && hasValidImage}
+        containerStyle={[
+          styles.itemContainer,
+          { marginVertical: isDesktopWeb ? 0 : 8 }
+        ]}
+      >
+        {content}
+      </AccordionItem>
+    </View>
+  );
+});
 
 export default function Index() {
   const router = useRouter();
@@ -34,34 +89,36 @@ export default function Index() {
     const isSearching = searchQuery.trim().length > 0;
     if (isDesktopWeb && !isSearching) {
       router.push(`/building/${id}`);
-      return true;
+      return;
     }
 
-    const isExpanding = !expandedIds[id];
+    setExpandedIds(prev => {
+      const currentlyExpanded = prev[id];
+      const newState = {
+        ...prev,
+        [id]: !currentlyExpanded
+      };
 
-    setExpandedIds(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+      if (!currentlyExpanded && !isDesktopWeb) {
+        const headerOffset = Platform.OS === 'web'
+          ? insets.top + headerHeight + 75 + (width < 768 ? 8 : 16)
+          : insets.top + headerHeight;
 
-    if (isExpanding && !isDesktopWeb) {
-      const headerOffset = Platform.OS === 'web'
-        ? insets.top + headerHeight + 75 + (width < 768 ? 8 : 16) // account for web search bar spacer
-        : insets.top + headerHeight;
-      setTimeout(() => {
-        flatListRef.current?.scrollToIndex({
-          index,
-          viewPosition: 0,
-          viewOffset: headerOffset,
-          animated: true,
-        });
-      }, 100);
-    }
+        setTimeout(() => {
+          flatListRef.current?.scrollToIndex({
+            index,
+            viewPosition: 0,
+            viewOffset: headerOffset,
+            animated: true,
+          });
+        }, 100);
+      }
 
-    return false;
-  }, [isDesktopWeb, router, triggerHaptic, searchQuery, expandedIds, insets.top, headerHeight, width]);
+      return newState;
+    });
+  }, [isDesktopWeb, router, triggerHaptic, searchQuery, insets.top, headerHeight, width]);
 
-  const accordionItems = useMemo(() => {
+  const filteredBuildings = useMemo(() => {
     const isSearching = searchQuery.trim().length > 0;
     const lowerQuery = searchQuery.toLowerCase();
 
@@ -106,47 +163,25 @@ export default function Index() {
     }).filter((item): item is typeof BUILDINGS_DATA[0] => item !== null);
 
     filtered.sort((a, b) => a.name.localeCompare(b.name));
+    return filtered;
+  }, [searchQuery, showPlaceholders]);
 
-    return filtered.map(building => {
-      const buildingImage = building.images?.[0];
-      const hasValidImage = buildingImage && !isPlaceholderImage(buildingImage);
-
-      const isSearching = searchQuery.trim().length > 0;
-      return {
-        id: building.id,
-        title: (
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>{building.name}</Text>
-            <BuildingRating roomIds={building.rooms.map(r => r.id)} />
-          </View>
-        ),
-        content: (isDesktopWeb && !isSearching) ? null : <RoomList rooms={building.rooms} />,
-        image: buildingImage,
-        showImage: showBuildingImages && hasValidImage,
-      };
-    });
-  }, [searchQuery, styles.title, theme.text, showPlaceholders, showBuildingImages, isDesktopWeb]);
-
-  const renderItem = useCallback(({ item, index }: { item: any, index: number }) => {
+  const renderItem = useCallback(({ item, index }: { item: typeof BUILDINGS_DATA[0], index: number }) => {
     const isSearching = searchQuery.trim().length > 0;
     return (
-      <View style={isDesktopWeb ? (isSearching ? styles.listItemFullWidth : styles.gridItem) : undefined}>
-        <AccordionItem
-          title={item.title}
-          isExpanded={isSearching || !!expandedIds[item.id]}
-          onPress={() => handleBuildingPress(item.id, index)}
-          image={item.image}
-          showImage={item.showImage}
-          containerStyle={[
-            styles.itemContainer,
-            { marginVertical: isDesktopWeb ? 0 : 8 }
-          ]}
-        >
-          {item.content}
-        </AccordionItem>
-      </View>
+      <BuildingListItem
+        item={item}
+        index={index}
+        isExpanded={isSearching || !!expandedIds[item.id]}
+        onPress={handleBuildingPress}
+        isDesktopWeb={isDesktopWeb}
+        isSearching={isSearching}
+        showBuildingImages={showBuildingImages}
+        theme={theme}
+        styles={styles}
+      />
     );
-  }, [isDesktopWeb, searchQuery, expandedIds, handleBuildingPress, styles.gridItem, styles.listItemFullWidth, styles.itemContainer]);
+  }, [isDesktopWeb, searchQuery, expandedIds, handleBuildingPress, showBuildingImages, theme, styles]);
 
 
 
@@ -202,18 +237,18 @@ export default function Index() {
       )}
       <FlatList
         ref={flatListRef}
-        data={accordionItems}
+        data={filteredBuildings}
         keyExtractor={(item) => item.id}
         numColumns={isDesktopWeb && !(searchQuery.trim().length > 0) ? 3 : 1}
         key={isDesktopWeb && !(searchQuery.trim().length > 0) ? 'web-grid' : 'list-one-col'}
         columnWrapperStyle={isDesktopWeb && !(searchQuery.trim().length > 0) ? styles.columnWrapper : undefined}
         renderItem={renderItem}
-        maxToRenderPerBatch={60}
-        windowSize={40}
-        updateCellsBatchingPeriod={10}
-        removeClippedSubviews={false}
-        initialNumToRender={40}
-        extraData={searchQuery}
+        maxToRenderPerBatch={20}
+        windowSize={11}
+        updateCellsBatchingPeriod={50}
+        removeClippedSubviews={Platform.OS === 'android'}
+        initialNumToRender={15}
+        extraData={searchQuery + Object.keys(expandedIds).length}
         onScrollToIndexFailed={(info) => {
           flatListRef.current?.scrollToOffset({
             offset: info.averageItemLength * info.index,
