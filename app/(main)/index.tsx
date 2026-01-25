@@ -243,11 +243,11 @@ export default function Index() {
         key={isDesktopWeb && !(searchQuery.trim().length > 0) ? 'web-grid' : 'list-one-col'}
         columnWrapperStyle={isDesktopWeb && !(searchQuery.trim().length > 0) ? styles.columnWrapper : undefined}
         renderItem={renderItem}
-        maxToRenderPerBatch={Platform.OS === 'android' ? 5 : 50}
+        maxToRenderPerBatch={Platform.OS === 'android' ? 5 : 100}
         windowSize={Platform.OS === 'android' ? 21 : 41}
         updateCellsBatchingPeriod={Platform.OS === 'android' ? 100 : 30}
         removeClippedSubviews={false}
-        initialNumToRender={Platform.OS === 'android' ? 10 : 50}
+        initialNumToRender={Platform.OS === 'android' ? 10 : 100}
         getItemLayout={(_, index) => ({
           length: 120,
           offset: 120 * index,
