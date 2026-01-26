@@ -76,10 +76,10 @@ export default function RootLayout() {
 }
 
 function LoadingScreen() {
-  const theme = useTheme();
+  // Force dark background to match app splash and prevent white flash during loading
   return (
-    <View style={[styles.loadingContainer, { backgroundColor: theme.background }]}>
-      <ActivityIndicator size="large" color={theme.subtext} />
+    <View style={[styles.loadingContainer, { backgroundColor: '#000000' }]}>
+      <ActivityIndicator size="large" color="#ffffff" />
     </View>
   );
 }
