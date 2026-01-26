@@ -488,12 +488,21 @@ export default function Account() {
                 <Text style={[styles.buttonText, { color: theme.destructive }]}>Delete Account</Text>
               </Pressable>
 
-              <Pressable
-                style={{ marginTop: 16, alignSelf: 'center' }}
-                onPress={() => router.push('/privacy' as any)}
-              >
-                <Text style={{ color: theme.subtext, fontSize: 13, textDecorationLine: 'underline' }}>Privacy Policy</Text>
-              </Pressable>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 16, gap: 12 }}>
+                <Pressable
+                  onPress={() => router.push('/privacy' as any)}
+                >
+                  <Text style={{ color: theme.subtext, fontSize: 13, textDecorationLine: 'underline' }}>Privacy Policy</Text>
+                </Pressable>
+
+                <Text style={{ color: theme.subtext, fontSize: 13 }}>•</Text>
+
+                <Pressable
+                  onPress={() => router.push('/delete-account' as any)}
+                >
+                  <Text style={{ color: theme.subtext, fontSize: 13, textDecorationLine: 'underline' }}>Account Deletion Info</Text>
+                </Pressable>
+              </View>
 
               {isAdmin && (
                 <View style={styles.adminContainer}>
