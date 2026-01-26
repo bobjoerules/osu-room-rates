@@ -1,5 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, useRouter } from 'expo-router';
 import Head from 'expo-router/head';
 import * as SplashScreen from 'expo-splash-screen';
@@ -50,6 +51,7 @@ export default function RootLayout() {
     return (
       <SettingsProvider>
         <ThemeProvider>
+          <ThemeManager />
           <LoadingScreen />
         </ThemeProvider>
       </SettingsProvider>
@@ -60,6 +62,7 @@ export default function RootLayout() {
     return (
       <SettingsProvider>
         <ThemeProvider>
+          <ThemeManager />
           <AccountScreen />
         </ThemeProvider>
       </SettingsProvider>
@@ -69,14 +72,29 @@ export default function RootLayout() {
   return (
     <SettingsProvider>
       <ThemeProvider>
+        <ThemeManager />
         <AuthenticatedStack />
       </ThemeProvider>
     </SettingsProvider>
   );
 }
 
+function ThemeManager() {
+  const theme = useTheme();
+  const colorScheme = useColorScheme();
+
+  useEffect(() => {
+    SystemUI.setBackgroundColorAsync(theme.background);
+    if (Platform.OS === 'android') {
+      NavigationBar.setBackgroundColorAsync(theme.background);
+      NavigationBar.setButtonStyleAsync(colorScheme === 'dark' ? 'light' : 'dark');
+    }
+  }, [theme.background, colorScheme]);
+
+  return null;
+}
+
 function LoadingScreen() {
-  // Force dark background to match app splash and prevent white flash during loading
   return (
     <View style={[styles.loadingContainer, { backgroundColor: '#000000' }]}>
       <ActivityIndicator size="large" color="#ffffff" />
@@ -87,10 +105,6 @@ function LoadingScreen() {
 function AuthenticatedStack() {
   const theme = useTheme();
   const colorScheme = useColorScheme();
-
-  useEffect(() => {
-    SystemUI.setBackgroundColorAsync(theme.background);
-  }, [theme.background]);
 
   const navTheme = {
     dark: colorScheme === 'dark',
