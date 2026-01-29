@@ -63,10 +63,12 @@ export default function OsuScreen() {
         }, {} as Record<string, typeof OSU_LINKS>);
     }
 
-    const renderSection = (title: string, data: typeof OSU_LINKS) => (
+    const renderSection = (title: string, data: typeof OSU_LINKS, hideTitle?: boolean) => (
         <View style={styles.sectionContainer}>
-            <Text style={[styles.sectionTitle, { color: theme.text }]}>{title}</Text>
-            <View style={[styles.sectionBox, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            {!(hideTitle) && (
+                <Text style={[styles.sectionTitle, { color: theme.text }]}>{title}</Text>
+            )}
+            <View style={[styles.sectionBox, { backgroundColor: theme.card, borderColor: theme.border }]}> 
                 {data.map((item, index) => (
                     <Pressable
                         key={item.url}
@@ -118,7 +120,7 @@ export default function OsuScreen() {
                 ]}
                 ListHeaderComponent={
                     <View>
-                        {!isDesktopWeb && categorizedLinks['Websites'] && renderSection('Websites', categorizedLinks['Websites'])}
+                        {categorizedLinks['Websites'] && categorizedLinks['Websites'].length > 0 && renderSection('Websites', categorizedLinks['Websites'], isDesktopWeb)}
                         {!isDesktopWeb && categorizedLinks['Apps'] && renderSection('Apps', categorizedLinks['Apps'])}
                     </View>
                 }
