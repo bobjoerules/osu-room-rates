@@ -51,7 +51,9 @@ export default function OsuScreen() {
 
     let categorizedLinks: Record<string, typeof OSU_LINKS> = {};
     if (isDesktopWeb) {
-        categorizedLinks['Websites'] = OSU_LINKS.map(link => ({ ...link, category: 'Websites' }));
+        categorizedLinks['Websites'] = OSU_LINKS
+            .filter(link => link.title !== 'OSU Rooms (Web)')
+            .map(link => ({ ...link, category: 'Websites' }));
     } else {
         categorizedLinks = OSU_LINKS.reduce((acc, link) => {
             const cat = link.category;
